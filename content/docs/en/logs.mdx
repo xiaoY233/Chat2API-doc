@@ -1,0 +1,142 @@
+---
+title: Request Logs
+description: View detailed records of all API requests processed by the proxy. Track request details, responses, errors, and performance metrics.
+icon: FileText
+---
+
+## Overview
+
+The Logs page provides:
+- Complete request history
+- Request details and responses
+- Error tracking
+- Performance metrics
+
+## Viewing Logs
+
+### Log List
+
+Navigate to **Logs** from the sidebar to see:
+
+| Column | Description |
+|--------|-------------|
+| Timestamp | When the request was made |
+| Method | HTTP method (POST, GET) |
+| Path | API endpoint |
+| Status | HTTP status code |
+| Duration | Request processing time |
+| Model | Model used |
+| Provider | Provider used |
+
+### Log Details
+
+Click on any log entry to see:
+- Full request body
+- Response body
+- Headers
+- Error messages (if any)
+- Token usage
+
+## Filtering
+
+### By Time Range
+
+- Last hour
+- Last 24 hours
+- Last 7 days
+- Custom range
+
+### By Status
+
+| Filter | Description |
+|--------|-------------|
+| Success (2xx) | Successful requests |
+| Client Error (4xx) | Client-side errors |
+| Server Error (5xx) | Server-side errors |
+
+### By Provider
+
+Filter logs by specific provider.
+
+### By Model
+
+Filter logs by specific model.
+
+## Searching
+
+Search logs by:
+- Request content
+- Response content
+- Error messages
+- Model name
+
+## Log Levels
+
+| Level | Description |
+|-------|-------------|
+| Info | Normal operations |
+| Warning | Potential issues |
+| Error | Failed requests |
+
+## Export
+
+### Export Options
+
+1. Click **Export** button
+2. Select format:
+   - JSON
+   - CSV
+3. Select time range
+4. Download the file
+
+## Statistics
+
+### Dashboard Metrics
+
+The logs contribute to dashboard statistics:
+- Total requests
+- Success rate
+- Average response time
+- Token usage
+
+### Performance Analysis
+
+Use logs to analyze:
+- Peak usage times
+- Slow endpoints
+- Error patterns
+- Provider reliability
+
+## Log Retention
+
+Logs are automatically cleaned up based on retention settings:
+
+| Setting | Default |
+|---------|---------|
+| Retention Period | 7 days |
+
+Configure in **Settings** > **General**.
+
+## Troubleshooting
+
+### Common Errors
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| 401 Unauthorized | Invalid API key | Check API key configuration |
+| 429 Too Many Requests | Rate limit exceeded | Add more accounts or reduce request rate |
+| 500 Internal Error | Provider error | Check provider status |
+| 503 Service Unavailable | Provider offline | Check provider connection |
+
+### Debug Mode
+
+Enable debug logging for more details:
+
+1. Go to **Settings** > **General**
+2. Set Log Level to **Debug**
+3. Reproduce the issue
+4. Check logs for detailed information
+
+<Callout type="info">
+  Debug mode generates more logs. Disable it after troubleshooting.
+</Callout>

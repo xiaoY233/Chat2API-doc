@@ -1,0 +1,127 @@
+---
+title: MiniMax
+description: MiniMax (Hailuo AI) is an AI assistant by MiniMax, supporting deep thinking and web search capabilities.
+---
+
+## Supported Models
+
+| Model | Description |
+|-------|-------------|
+| MiniMax-M2.5 | Latest MiniMax M2.5 model |
+
+## Features
+
+- Deep thinking mode
+- Web search
+- Streaming/non-streaming output
+- Multi-turn conversation support
+- Tool calling support
+
+## Authentication
+
+MiniMax supports **OAuth Login** and **JWT Token** authentication methods.
+
+### Method 1: OAuth Login (Recommended)
+
+<Steps>
+  <Step title="Add Provider">
+    In Chat2API, click **Add Provider** and select MiniMax.
+  </Step>
+  
+  <Step title="Select Authentication Method">
+    Choose **OAuth Login** method.
+  </Step>
+  
+  <Step title="Browser Login">
+    Click **Start Login**, the system will automatically open the browser and redirect to the MiniMax login page.
+  </Step>
+  
+  <Step title="Complete Login">
+    After completing login in the browser, return to Chat2API, the system will automatically obtain authentication information.
+  </Step>
+</Steps>
+
+### Method 2: JWT Token Authentication
+
+<Steps>
+  <Step title="Visit MiniMax Agent">
+    Go to [MiniMax Agent](https://agent.minimaxi.com/) and log in.
+  </Step>
+  
+  <Step title="Open Developer Tools">
+    Press `F12` to open Developer Tools.
+  </Step>
+  
+  <Step title="Navigate to Application">
+    Go to **Application** > **Local Storage**.
+  </Step>
+  
+  <Step title="Get Token">
+    Find `_token` and copy its value (JWT format, starts with `eyJ`).
+  </Step>
+  
+  <Step title="Get Real User ID">
+    In the same Local Storage, find `user_detail_agent`, open it and copy the `realUserID` value.
+  </Step>
+</Steps>
+
+<Callout type="warning">
+  MiniMax requires both `_token` and `realUserID` for authentication, please enter them in the corresponding input fields.
+</Callout>
+
+## Adding to Chat2API
+
+1. Navigate to **Providers** > **Add Provider**
+2. Select **MiniMax** from the list
+3. Enter your JWT Token (`_token` value)
+4. Enter your Real User ID
+5. Click **Validate** to verify
+6. Save the provider
+
+## API Usage
+
+### Model Names
+
+```json
+{
+  "model": "MiniMax-M2.5",
+  "messages": [...]
+}
+```
+
+### Model Mapping Recommendations
+
+| Model Name | Actual Model | Description |
+|------------|--------------|-------------|
+| `MiniMax-M2.5-Think` | MiniMax-M2.5 | Deep thinking model |
+| `MiniMax-M2.5-Search` | MiniMax-M2.5 | Web search model |
+| `MiniMax-M2.5-Think-Search` | MiniMax-M2.5 | Deep thinking + Web search |
+
+## Usage Limits
+
+- 200 free credits daily
+- Note conversation limits, unable to continue when credits are exhausted
+
+<Callout type="warning">
+  MiniMax's conversation implementation differs from other providers, using a polling mechanism to get responses. Therefore, response speed may be slower, and conversation failures may occur. If you encounter issues, please retry later or switch to another provider.
+</Callout>
+
+## Troubleshooting
+
+### 401 Authentication Failed
+
+New accounts may not work with standard JWT authentication. Solutions:
+1. Get both `_token` and `realUserID`
+2. Enter them separately in the corresponding fields in Chat2API
+
+### Token Expired
+
+MiniMax tokens may expire. If authentication errors occur:
+1. Re-login to MiniMax Agent website
+2. Get new `_token` and `realUserID`
+3. Update in Chat2API
+
+## Official Resources
+
+- [MiniMax Agent](https://agent.minimaxi.com/)
+- [MiniMax Platform](https://www.minimaxi.com/platform)

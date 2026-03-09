@@ -1,0 +1,106 @@
+---
+title: Qwen (China)
+description: Qwen is Alibaba's AI assistant, supporting deep thinking and code modes.
+---
+
+## Supported Models
+
+| Model | Description |
+|-------|-------------|
+| Qwen3 | Qwen3 model |
+| Qwen3-Max | Qwen3 Max model |
+| Qwen3-Max-Thinking | Qwen3 Max thinking model |
+| Qwen3-Plus | Qwen3 Plus model |
+| Qwen3.5-Plus | Qwen3.5 Plus model |
+| Qwen3-Flash | Fast response model |
+| Qwen3-Coder | Code specialized model |
+
+## Features
+
+- Deep thinking mode
+- Code mode for programming tasks
+- Web search
+- Streaming/non-streaming output
+- Multi-turn conversation support
+- Tool calling support
+
+## Authentication
+
+Qwen (China) supports **OAuth Login** and **SSO Ticket** authentication methods.
+
+### Method 1: OAuth Login (Recommended)
+
+<Steps>
+  <Step title="Add Provider">
+    In Chat2API, click **Add Provider** and select Qwen.
+  </Step>
+  
+  <Step title="Select Authentication Method">
+    Choose **OAuth Login** method.
+  </Step>
+  
+  <Step title="Browser Login">
+    Click **Start Login**, the system will automatically open the browser and redirect to the Qwen login page.
+  </Step>
+  
+  <Step title="Complete Login">
+    After completing login in the browser, return to Chat2API, the system will automatically obtain authentication information.
+  </Step>
+</Steps>
+
+### Method 2: SSO Ticket
+
+<Steps>
+  <Step title="Visit Qwen">
+    Go to [Qwen](https://tongyi.aliyun.com/qianwen) or [Qianwen](https://www.qianwen.com/) and log in.
+  </Step>
+  
+  <Step title="Open Developer Tools">
+    Press `F12` to open Developer Tools.
+  </Step>
+  
+  <Step title="Navigate to Application">
+    Go to **Application** > **Cookies**.
+  </Step>
+  
+  <Step title="Copy Token">
+    Find the cookie named `tongyi_sso_ticket` and copy its value.
+  </Step>
+</Steps>
+
+<Callout type="info">
+  Alternative: You can also use `login_aliyunid_ticket` from aliyun.com if you have an Alibaba Cloud account.
+</Callout>
+
+## Adding to Chat2API
+
+1. Navigate to **Providers** > **Add Provider**
+2. Select **Qwen** from the list
+3. Paste your `tongyi_sso_ticket` value
+4. Click **Validate** to verify
+5. Save the provider
+
+## API Usage
+
+### Model Names
+
+```json
+{
+  "model": "Qwen3.5-Plus",
+  "messages": [...]
+}
+```
+
+### Model Mapping Recommendations
+
+| Model Name | Actual Model | Description |
+|------------|--------------|-------------|
+| `Qwen3.5-Plus-Think` | Qwen3.5-Plus | Deep thinking model |
+| `Qwen3.5-Plus-Search` | Qwen3.5-Plus | Web search model |
+| `Qwen3.5-Plus-Think-Search` | Qwen3.5-Plus | Deep thinking + Web search |
+
+## Official Resources
+
+- [Qwen](https://tongyi.aliyun.com/qianwen)
+- [Qianwen](https://www.qianwen.com/)
+- [Alibaba Cloud DashScope](https://dashscope.console.aliyun.com/)

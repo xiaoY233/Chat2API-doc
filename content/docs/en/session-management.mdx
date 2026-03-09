@@ -1,0 +1,267 @@
+---
+title: Session Management
+description: Configure single-turn and multi-turn conversation modes. Manage session lifecycle, message limits, and automatic cleanup.
+icon: MessagesSquare
+---
+
+import { Zap } from 'lucide-react';
+
+## Overview
+
+Chat2API supports two conversation modes for different use cases. Session management maintains conversation context across multiple API calls.
+
+<Card title="Quick Reference" icon={<Zap />}>
+  Configure in **Advanced Settings** → **Proxy** → **Session Management**
+</Card>
+
+## Session Modes
+
+### Single-Turn Mode
+
+Each request is independent with no context retention.
+
+<Callout type="info">
+  Default mode. Suitable for stateless API calls.
+</Callout>
+
+**Characteristics:**
+
+| Feature | Description |
+|---------|-------------|
+| Context | Not retained between requests |
+| Session ID | Returns empty string |
+| Resource Usage | Minimal |
+| Provider Session | Optionally deleted after chat |
+
+**Best For:**
+
+- Simple Q&A
+- Translation tasks
+- Text generation
+- One-off queries
+
+**Delete After Timeout:**
+
+In single-turn mode, enable `deleteAfterTimeout` to automatically delete the provider-side conversation after chat ends. This helps:
+
+- Save provider storage
+- Maintain privacy
+- Clean up unused conversations
+
+### Multi-Turn Mode
+
+Conversation context is maintained within the same session.
+
+**Characteristics:**
+
+| Feature | Description |
+|---------|-------------|
+| Context | Retained across requests |
+| Session ID | Unique ID per session |
+| Resource Usage | Higher (stores history) |
+| Provider Session | Maintained for continuity |
+
+**Best For:**
+
+- Conversational AI applications
+- Multi-step tasks
+- Context-dependent queries
+- Customer support bots
+
+## Configuration
+
+Configure in **Advanced Settings** → **Proxy** → **Session Management**:
+
+| Option | Description | Default | Range |
+|--------|-------------|---------|-------|
+| Mode | Single-turn or Multi-turn | Single-turn | - |
+| Session Timeout | Minutes before session expires | 30 | 1-1440 |
+| Max Messages per Session | Maximum messages to retain | 100 | 1-500 |
+| Max Sessions per Account | Maximum concurrent sessions | 10 | 1-10 |
+| Delete After Timeout | Delete provider session after chat (single-turn only) | Disabled | - |
+
+## Using Sessions
+
+### Creating a Session
+
+Sessions are automatically created when you include a `session_id` in your request:
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "My name is Alice"}
+    ],
+    "session_id": "user-123-session"
+  }'
+```
+
+### Continuing a Session
+
+Use the same `session_id` to continue the conversation:
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "What is my name?"}
+    ],
+    "session_id": "user-123-session"
+  }'
+```
+
+The model remembers the context and responds: "Your name is Alice."
+
+### Session ID Format
+
+| Requirement | Description |
+|-------------|-------------|
+| Uniqueness | Use unique IDs per user/conversation |
+| Format | UUID or user-specific identifier recommended |
+| Case | Session IDs are case-sensitive |
+
+## Session Lifecycle
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Created   │ ──▶ │   Active    │ ──▶ │   Expired   │ ──▶ │   Cleaned   │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+```
+
+| Stage | Description |
+|-------|-------------|
+| Created | First request with session_id |
+| Active | Each request keeps alive (configurable timeout) |
+| Expired | Timeout reached |
+| Cleaned | Auto deletion |
+
+<Callout type="warning">
+  **Important**: If you clear the conversation history on the official web page, you must manually clean the corresponding Session in Chat2API, otherwise the conversation context may become inconsistent.
+</Callout>
+
+### States
+
+| State | Description |
+|-------|-------------|
+| `active` | Session is in use, context is retained |
+| `expired` | Timeout reached, session marked for cleanup |
+| `cleaned` | Session removed from memory |
+
+## Session Limits
+
+### Message Limit
+
+When a session reaches `maxMessagesPerSession`:
+
+1. Oldest messages are removed first
+2. Recent context is preserved
+3. Session continues to function normally
+
+### Session Count Limit
+
+When an account reaches `maxSessionsPerAccount`:
+
+1. Oldest inactive sessions are removed
+2. New sessions can be created
+3. Active sessions are not affected
+
+## Session Management UI
+
+The Session Management page provides:
+
+| Action | Description |
+|--------|-------------|
+| View Sessions | See all active sessions with details |
+| Refresh | Update session list |
+| Delete Session | Remove a specific session |
+| Clear All | Remove all sessions |
+
+### Session Information Display
+
+Each session shows:
+
+- Session ID
+- Provider and Account
+- Message count
+- Status (active/expired)
+- Last active time
+
+## Automatic Cleanup
+
+The system automatically cleans up expired sessions:
+
+<Cards>
+  <Card title="On Startup" description="Clean expired sessions when app starts" />
+  <Card title="Periodic Check" description="Check and clean every 1 minute" />
+  <Card title="On New Session" description="Clean when creating new session if limit reached" />
+</Cards>
+
+## Best Practices
+
+### Session ID Management
+
+1. **Use UUIDs**: Generate unique IDs for each conversation
+2. **User Association**: Tie session IDs to user identifiers
+3. **Consistent Format**: Use a consistent naming convention
+
+### Configuration Tuning
+
+| Use Case | Timeout | Max Messages | Max Sessions |
+|----------|---------|--------------|--------------|
+| Quick Q&A | 5-10 min | 20-50 | 5 |
+| Customer Support | 30-60 min | 100-200 | 10 |
+| Long Conversations | 120+ min | 200-500 | 3 |
+
+### Resource Management
+
+1. **Monitor Usage**: Check session list periodically
+2. **Set Appropriate Limits**: Balance functionality and resources
+3. **Clean Up Proactively**: Use the Clear All function when needed
+
+## Troubleshooting
+
+### Session Not Working
+
+<Callout type="warning">
+  Verify session mode is set to **Multi-turn** for context retention.
+</Callout>
+
+**Checklist:**
+
+- [ ] Session mode is Multi-turn
+- [ ] `session_id` is included in request
+- [ ] Session has not expired
+- [ ] Using the same `session_id` across requests
+
+### Context Lost
+
+**Possible Causes:**
+
+| Cause | Solution |
+|-------|----------|
+| Session expired | Increase timeout or recreate session |
+| Message limit reached | Increase max messages setting |
+| Session deleted | Check if manually deleted |
+
+### Too Many Sessions
+
+**Solutions:**
+
+1. Reduce `maxSessionsPerAccount`
+2. Decrease `sessionTimeout` for faster cleanup
+3. Use the Clear All function in UI
+4. Implement session cleanup in your application
+
+### Provider Session Not Deleted (Single-Turn)
+
+If `deleteAfterTimeout` is enabled but provider sessions persist:
+
+- Check if the provider supports session deletion
+- Verify the account has proper permissions
+- Check logs for deletion errors

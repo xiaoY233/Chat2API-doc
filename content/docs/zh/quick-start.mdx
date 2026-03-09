@@ -1,0 +1,108 @@
+---
+title: 快速开始
+description: 几分钟内开始使用 Chat2API - 添加您的第一个供应商并进行 API 调用
+icon: Rocket
+---
+
+## 步骤 1：启动应用
+
+安装完成后，启动 Chat2API。您将看到主仪表盘。
+
+## 步骤 2：添加供应商
+
+1. 从侧边栏导航到**供应商**页面
+2. 点击**添加供应商**按钮
+3. 选择一个内置供应商（例如 DeepSeek）
+4. 输入您的认证凭证
+
+### 获取 Token
+
+<Callout type="info">
+  每个供应商需要不同的认证方式。请参阅[供应商](/docs/basics/providers)部分，了解获取各服务 Token 的详细说明。
+</Callout>
+
+例如，获取 DeepSeek Token：
+
+1. 访问 [DeepSeek Chat](https://chat.deepseek.com/)
+2. 开始任意对话
+3. 按 `F12` 打开开发者工具
+4. 转到 **Application** > **Local Storage**
+5. 找到 `userToken` 并复制其值
+
+## 步骤 3：配置代理
+
+1. 从侧边栏导航到**代理设置**页面
+2. 设置端口（默认：8080）
+3. 选择负载均衡策略：
+   - **轮询**：在账户间均匀分配请求
+   - **填充优先**：使用一个账户直到达到限制
+   - **故障转移**：失败时自动切换
+4. 点击**启动代理**
+
+## 步骤 4：测试 API
+
+### 使用 curl
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "你好，你是谁？"}
+    ],
+    "stream": false
+  }'
+```
+
+### 使用 Python (OpenAI SDK)
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="your-api-key",
+    base_url="http://localhost:8080/v1"
+)
+
+response = client.chat.completions.create(
+    model="DeepSeek-V3.2",
+    messages=[
+        {"role": "user", "content": "你好，你是谁？"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+### 使用 JavaScript/TypeScript
+
+```typescript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: 'your-api-key',
+  baseURL: 'http://localhost:8080/v1',
+});
+
+const response = await client.chat.completions.create({
+  model: 'DeepSeek-V3.2',
+  messages: [{ role: 'user', content: '你好，你是谁？' }],
+});
+
+console.log(response.choices[0].message.content);
+```
+
+## 步骤 5：管理 API Key（可选）
+
+为了安全，您可以启用 API Key 认证：
+
+1. 转到 **API Keys** 页面
+2. 点击**新建 API Key**
+3. 输入名称和描述
+4. 复制生成的密钥
+
+<Callout type="info">
+  请安全保存您的 API Key，您可以随时在 API Keys 页面查看已创建的密钥。
+</Callout>

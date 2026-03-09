@@ -1,0 +1,8 @@
+{
+  "title": "Model Management",
+  "icon": "Box",
+  "pages": [
+    "index",
+    "model-mapping"
+  ]
+}

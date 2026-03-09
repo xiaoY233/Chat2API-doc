@@ -1,0 +1,123 @@
+---
+title: Installation
+description: Download and install Chat2API on macOS, Windows, and Linux. Supports Apple Silicon, Intel, and modern Linux distributions.
+icon: Download
+---
+
+## System Requirements
+
+| Platform | Requirements |
+|----------|--------------|
+| macOS | macOS 10.15 (Catalina) or later, Apple Silicon or Intel |
+| Windows | Windows 10 or later, 64-bit |
+| Linux | Ubuntu 18.04+, Debian 10+, or other modern distributions |
+
+## Download
+
+Download the latest version from [GitHub Releases](https://github.com/xiaoY233/Chat2API/releases):
+
+| Platform | Download |
+|----------|----------|
+| macOS (Apple Silicon) | `Chat2API-x.x.x-arm64.dmg` |
+| macOS (Intel) | `Chat2API-x.x.x-x64.dmg` |
+| Windows | `Chat2API-x.x.x-x64-setup.exe` |
+| Linux | `Chat2API-x.x.x-x64.AppImage` or `.deb` |
+
+## Installation Steps
+
+### macOS
+
+1. Download the `.dmg` file for your architecture (Apple Silicon or Intel)
+2. Open the downloaded file
+3. Drag Chat2API to the Applications folder
+4. Launch Chat2API from Applications
+
+<Callout type="warning">
+  If you see "App is damaged and can't be opened" error, run this command in Terminal:
+  
+  ```bash
+  sudo xattr -rd com.apple.quarantine "/Applications/Chat2API.app"
+  ```
+</Callout>
+
+### Windows
+
+1. Download the `.exe` installer
+2. Run the installer
+3. Follow the installation wizard
+4. Launch Chat2API from Start Menu or desktop shortcut
+
+<Callout type="info">
+  Windows may show a SmartScreen warning. Click "More info", then "Run anyway" to proceed.
+</Callout>
+
+### Linux
+
+#### AppImage (Recommended)
+
+```bash
+# Download AppImage
+wget https://github.com/xiaoY233/Chat2API/releases/download/v1.0.0/Chat2API-1.0.0-x64.AppImage
+
+# Add execute permission
+chmod +x Chat2API-1.0.0-x64.AppImage
+
+# Run
+./Chat2API-1.0.0-x64.AppImage
+```
+
+#### DEB Package (Debian/Ubuntu)
+
+```bash
+# Download DEB package
+wget https://github.com/xiaoY233/Chat2API/releases/download/v1.0.0/Chat2API-1.0.0-x64.deb
+
+# Install
+sudo dpkg -i Chat2API-1.0.0-x64.deb
+
+# Fix dependencies if needed
+sudo apt-get install -f
+```
+
+## Build from Source
+
+### Prerequisites
+
+- Node.js 18+
+- npm
+- Git
+
+### Build Steps
+
+```bash
+# Clone repository
+git clone https://github.com/xiaoY233/Chat2API.git
+cd Chat2API/Chat2API-Manager
+
+# Install dependencies
+npm install
+
+# Start development
+npx electron-vite dev 2>&1
+```
+
+### Production Build
+
+```bash
+# Build application
+npm run build
+
+# Build for specific platform
+npm run build:mac          # macOS (dmg)
+npm run build:win          # Windows (nsis)
+npm run build:linux        # Linux (AppImage, deb)
+npm run build:all          # All platforms
+```
+
+## First Launch
+
+After installation, when you first launch Chat2API:
+
+1. The app will create a data directory at `~/.chat2api/`
+2. Default configuration will be generated automatically
+3. You can start adding providers and configuring the proxy

@@ -1,0 +1,139 @@
+---
+title: 代理概述
+description: Chat2API 提供 OpenAI 兼容的 API 代理，允许您使用任何 OpenAI 兼容客户端与配置的 AI 供应商通信。
+---
+
+## 状态监控
+
+代理设置页面顶部显示代理服务器的实时状态：
+
+| 状态 | 描述 |
+|------|------|
+| 运行中 | 代理服务器正在运行 |
+| 已停止 | 代理服务器已停止 |
+| 错误 | 代理服务器遇到错误 |
+
+### 状态信息
+
+- **端口**：当前监听的端口
+- **运行时间**：服务器运行时长
+- **请求数**：处理的请求总数
+- **成功率**：请求成功率
+
+### 快捷操作
+
+- **启动代理**：启动代理服务器
+- **停止代理**:停止代理服务器
+- **重启代理**：重启代理服务器
+
+## API 端点
+
+| 端点 | 方法 | 描述 |
+|------|------|------|
+| `/v1/chat/completions` | POST | 聊天补全（支持流式） |
+| `/v1/completions` | POST | 文本补全 |
+| `/v1/models` | GET | 列出可用模型 |
+| `/v1/models/:model` | GET | 获取模型详情 |
+| `/health` | GET | 健康检查 |
+| `/stats` | GET | 使用统计 |
+
+## 基本使用
+
+### 使用 curl
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "你好！"}
+    ]
+  }'
+```
+
+### 使用 OpenAI SDK (Python)
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="your-api-key",
+    base_url="http://localhost:8080/v1"
+)
+
+response = client.chat.completions.create(
+    model="DeepSeek-V3.2",
+    messages=[{"role": "user", "content": "你好！"}]
+)
+```
+
+### 使用 OpenAI SDK (JavaScript)
+
+```typescript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: 'your-api-key',
+  baseURL: 'http://localhost:8080/v1',
+});
+
+const response = await client.chat.completions.create({
+  model: 'DeepSeek-V3.2',
+  messages: [{ role: 'user', content: '你好！' }],
+});
+```
+
+## 流式响应
+
+设置 `stream: true` 启用流式输出：
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_KEY" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [{"role": "user", "content": "你好！"}],
+    "stream": true
+  }'
+```
+
+## 响应格式
+
+### 非流式
+
+```json
+{
+  "id": "chatcmpl-xxx",
+  "object": "chat.completion",
+  "created": 1234567890,
+  "model": "DeepSeek-V3.2",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "你好！今天我能为您做些什么？"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 20,
+    "total_tokens": 30
+  }
+}
+```
+
+### 流式
+
+```
+data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk","created":1234567890,"model":"DeepSeek-V3.2","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk","created":1234567890,"model":"DeepSearch-V3.2","choices":[{"index":0,"delta":{"content":"你好"},"finish_reason":null}]}
+
+data: [DONE]
+```

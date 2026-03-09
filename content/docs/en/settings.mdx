@@ -1,0 +1,203 @@
+---
+title: Settings
+description: Configure application appearance, general behavior, data management, and security. Customize startup options, close behavior, notifications, and network proxy.
+icon: Settings
+---
+
+## Overview
+
+The Settings page contains 4 tabs:
+
+| Tab | Description |
+|-----|-------------|
+| **Appearance** | Theme, language, sidebar settings |
+| **General** | Startup, close behavior, notifications, network proxy |
+| **Data** | Log settings, import/export, cache, reset |
+| **Security** | Credential encryption, log desensitization |
+
+## Appearance
+
+### Theme
+
+| Option | Description |
+|--------|-------------|
+| Light | Light color theme |
+| Dark | Dark color theme |
+
+<Callout type="info">
+  The theme setting affects the entire application interface including the sidebar, dialogs, and content areas.
+</Callout>
+
+### Language
+
+| Language | Code |
+|----------|------|
+| 简体中文 | `zh-CN` |
+| English | `en-US` |
+
+Language changes take effect immediately without restarting the application.
+
+### Sidebar
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Collapsed on Start | Start with sidebar collapsed | Off |
+
+## General
+
+### Startup Options
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Auto Start App | Start app when system boots | Off |
+| Auto Start Proxy | Start proxy when app launches | Off |
+
+<Callout type="info">
+  Auto Start Proxy requires Auto Start App to be enabled for consistent behavior.
+</Callout>
+
+### Close Behavior
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Minimize to Tray | Minimize to system tray instead of closing | On |
+| Close Behavior | Behavior when closing window | Minimize |
+
+**Close Behavior Options:**
+
+| Option | Description |
+|--------|-------------|
+| Minimize | Minimize to system tray |
+| Close | Close the application directly |
+| Ask | Ask user each time |
+
+### Notifications
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Enable Notifications | Show system notifications | On |
+
+### Network Proxy
+
+**OAuth Proxy Mode:**
+
+Configure proxy settings for OAuth authentication.
+
+| Mode | Description |
+|------|-------------|
+| `system` | Use system proxy (default) |
+| `none` | Disable proxy |
+
+<Callout type="info">
+  If OAuth login fails, try switching the proxy mode.
+</Callout>
+
+## Data
+
+### Log Settings
+
+| Setting | Description | Default | Range |
+|---------|-------------|---------|-------|
+| Log Level | Logging verbosity | `info` | `debug`, `info`, `warn`, `error` |
+| Log Retention Days | Days to keep logs | 30 | 1-365 |
+| Max Logs | Maximum log entries | 10000 | 100-100000 |
+
+**Log Levels:**
+
+| Level | Description |
+|-------|-------------|
+| `debug` | All logs, for development |
+| `info` | Standard information and above |
+| `warn` | Warnings and errors only |
+| `error` | Errors only |
+
+### Data Management
+
+| Action | Description |
+|--------|-------------|
+| Export Settings | Export current settings to JSON file |
+| Import Settings | Import settings from JSON file |
+
+**Export Format:**
+
+```json
+{
+  "version": "1.0.0",
+  "exportedAt": "2026-03-10T...",
+  "settings": "..."
+}
+```
+
+<Callout type="warning">
+  Importing settings will replace current settings and refresh the page.
+</Callout>
+
+### Danger Zone
+
+| Action | Description | Confirmation |
+|--------|-------------|--------------|
+| Clear Cache | Clear session cache | None |
+| Reset App | Reset all data to defaults | Dialog required |
+
+<Callout type="error">
+  Reset App will delete all data including accounts, configurations, and logs. This action cannot be undone.
+</Callout>
+
+## Security
+
+### Credential Encryption
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Enable Encryption | Encrypt stored credentials | On |
+
+<Callout type="info">
+  Credentials (tokens, passwords) are encrypted using secure algorithms before storage.
+</Callout>
+
+### Log Desensitization
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Enable Desensitization | Mask sensitive data in logs | On |
+
+**Example:**
+
+```
+Original: sk-1234567890abcdef1234567890abcdef
+Masked:   sk-1234****cdef
+```
+
+<Callout type="info">
+  Log desensitization helps protect sensitive information like API keys and tokens from appearing in logs.
+</Callout>
+
+## Configuration File
+
+Settings are stored in:
+
+| Platform | Location |
+|----------|----------|
+| Windows | `%APPDATA%\chat2api\config.json` |
+| macOS | `~/Library/Application Support/chat2api/config.json` |
+| Linux | `~/.config/chat2api/config.json` |
+
+**Example Configuration:**
+
+```json
+{
+  "theme": "system",
+  "language": "en-US",
+  "autoStart": false,
+  "autoStartProxy": false,
+  "minimizeToTray": true,
+  "closeBehavior": "minimize",
+  "enableNotifications": true,
+  "oauthProxyMode": "system",
+  "logLevel": "info",
+  "logRetentionDays": 30,
+  "maxLogs": 10000,
+  "credentialEncryption": true,
+  "logDesensitization": true
+}
+```

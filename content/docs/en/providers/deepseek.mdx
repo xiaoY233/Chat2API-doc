@@ -1,0 +1,98 @@
+---
+title: DeepSeek
+description: DeepSeek is an AI assistant that supports deep thinking and web search capabilities.
+---
+
+## Supported Models
+
+| Model | Description |
+|-------|-------------|
+| DeepSeek-V3.2 | Latest DeepSeek model with enhanced capabilities |
+| DeepSeek-Search | Model with web search support |
+| DeepSeek-R1 | Deep thinking reasoning model |
+| DeepSeek-R1-Search | Deep thinking model with web search support |
+
+## Features
+
+- Deep thinking mode for complex reasoning
+- Web search integration
+- Streaming/non-streaming output
+- Multi-turn conversation support
+
+## Authentication
+
+DeepSeek supports **OAuth Login** and **User Token** authentication methods.
+
+### Method 1: OAuth Login (Recommended)
+
+<Steps>
+  <Step title="Add Provider">
+    In Chat2API, click **Add Provider** and select DeepSeek.
+  </Step>
+  
+  <Step title="Select Authentication Method">
+    Choose **OAuth Login** method.
+  </Step>
+  
+  <Step title="Browser Login">
+    Click **Start Login**, the system will automatically open the browser and redirect to the DeepSeek login page.
+  </Step>
+  
+  <Step title="Complete Login">
+    After completing login in the browser, return to Chat2API, the system will automatically obtain authentication information.
+  </Step>
+</Steps>
+
+### Method 2: Manual Token
+
+<Steps>
+  <Step title="Visit DeepSeek">
+    Go to [DeepSeek Chat](https://chat.deepseek.com/) and log in to your account.
+  </Step>
+  
+  <Step title="Open Developer Tools">
+    Start any conversation, then press `F12` to open Developer Tools.
+  </Step>
+  
+  <Step title="Navigate to Application">
+    In Developer Tools, go to **Application** tab (or **Storage** in some browsers).
+  </Step>
+  
+  <Step title="Find Local Storage">
+    Expand **Local Storage** in the left sidebar, click `https://chat.deepseek.com`, find `userToken` and copy its value.
+  </Step>
+</Steps>
+
+<Callout type="warning">
+  Do not share your token with others. The token provides full access to your DeepSeek account.
+</Callout>
+
+## Adding to Chat2API
+
+1. Navigate to **Providers** > **Add Provider**
+2. Select **DeepSeek** from the list
+3. Paste the `userToken` value
+4. Click **Validate** to verify
+5. Save the provider
+
+### Model Mapping Recommendations
+
+| Model Name | Actual Model | Description |
+|------------|--------------|-------------|
+| `DeepSeek-V3.2-Think` | DeepSeek-V3.2 | Deep thinking model |
+| `DeepSeek-V3.2-Search` | DeepSeek-V3.2 | Web search model |
+| `DeepSeek-V3.2-Think-Search` | DeepSeek-V3.2 | Deep thinking + Web search |
+
+## Troubleshooting
+
+### Token Invalid
+
+If you see "Token invalid" error:
+1. Re-login to DeepSeek website
+2. Get a fresh token from Local Storage
+3. Update the token in Chat2API
+
+## Official Resources
+
+- [DeepSeek Website](https://chat.deepseek.com/)
+- [DeepSeek API Platform](https://platform.deepseek.com/)

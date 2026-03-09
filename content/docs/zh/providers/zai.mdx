@@ -1,0 +1,103 @@
+---
+title: Z.ai
+description: Z.ai 是一个免费的 AI 聊天机器人，由 GLM 模型驱动。
+---
+
+## 支持的模型
+
+| 模型 | 描述 |
+|------|------|
+| GLM-5 | 最新 GLM-5 模型 |
+| GLM-4.7 | GLM-4.7 模型 |
+| GLM-4.6V | 视觉模型 |
+| GLM-4.6 | 标准模型 |
+
+## 功能特性
+
+- 免费使用
+- 深度思考模式
+- 联网搜索
+- 流式/非流式输出
+- 多轮对话支持
+- 工具调用支持
+
+## 认证方式
+
+Z.ai 支持 **OAuth 登录认证** 和 **JWT Token 认证** 两种方式。
+
+### 方式一：OAuth 登录认证（推荐）
+
+<Steps>
+  <Step title="添加供应商">
+    在 Chat2API 中点击**添加供应商**，选择 Z.ai。
+  </Step>
+  
+  <Step title="选择认证方式">
+    选择 **OAuth 登录** 方式。
+  </Step>
+  
+  <Step title="浏览器登录">
+    点击**开始登录**，系统会自动打开浏览器跳转到 Z.ai 登录页面。
+  </Step>
+  
+  <Step title="完成登录">
+    在浏览器中完成登录后，返回 Chat2API，系统会自动获取认证信息。
+  </Step>
+</Steps>
+
+### 方式二：JWT Token 认证
+
+<Steps>
+  <Step title="访问 Z.ai">
+    前往 [Z.ai](https://chat.z.ai/) 并登录。
+  </Step>
+  
+  <Step title="打开开发者工具">
+    按 `F12` 打开开发者工具。
+  </Step>
+  
+  <Step title="查找 Token">
+    检查以下位置之一：
+    - **Cookies**：查找 `token` Cookie
+    - **Local Storage**：查找 `token` 键
+  </Step>
+  
+  <Step title="复制 Token">
+    复制 JWT token 值（以 `eyJ` 开头）。
+  </Step>
+</Steps>
+
+<Callout type="info">
+  Token 可以在 Cookies 或 Local Storage 中找到。
+</Callout>
+
+## 添加到 Chat2API
+
+1. 导航到 **供应商** > **添加供应商**
+2. 从列表中选择 **Z.ai**
+3. 粘贴您的 JWT Token
+4. 点击 **验证** 确认
+5. 保存供应商
+
+## API 使用
+
+### 模型名称
+
+```json
+{
+  "model": "GLM-5",
+  "messages": [...]
+}
+```
+
+### 模型映射推荐
+
+| 模型名称 | 实际模型 | 描述 |
+|----------|----------|------|
+| `GLM-5-Think` | GLM-5 | 深度思考模型 |
+| `GLM-5-Search` | GLM-5 | 联网搜索模型 |
+| `GLM-5-Think-Search` | GLM-5 | 深度思考 + 联网搜索 |
+
+## 官方资源
+
+- [Z.ai](https://chat.z.ai/)

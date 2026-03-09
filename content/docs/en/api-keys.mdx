@@ -1,0 +1,187 @@
+---
+title: API Key Management
+description: API Keys are used to authenticate access to the Chat2API proxy server. Create, manage, and use keys to protect your proxy endpoint.
+icon: Key
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
+
+## Overview
+
+When API Key authentication is enabled, all requests to the proxy must include a valid API Key.
+
+## Enable Authentication
+
+1. Navigate to **API Keys** from the sidebar
+2. Toggle **Enable Authentication**
+3. Create at least one API Key
+
+<Callout type="warn">
+  Enable authentication before exposing the proxy to the network to prevent unauthorized access.
+</Callout>
+
+## Create API Key
+
+### Steps
+
+1. Click **New API Key** button
+2. Enter a name (e.g., "Production", "Development")
+3. Add optional description
+4. Click **Create**
+
+### Key Format
+
+API Key format:
+```
+sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+<Callout type="warn">
+  Please store your API Key securely. Store keys in environment variables, not in code.
+</Callout>
+
+## Using API Key
+
+### Method 1: Authorization Header (Recommended)
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Authorization: Bearer sk-xxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "gpt-4", "messages": [...]}'
+```
+
+### Method 2: X-API-Key Header
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "X-API-Key: sk-xxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "gpt-4", "messages": [...]}'
+```
+
+### Method 3: URL Parameter
+
+```bash
+curl "http://localhost:8080/v1/chat/completions?api_key=sk-xxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "gpt-4", "messages": [...]}'
+```
+
+### Using OpenAI SDK
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-xxxxxx",
+    base_url="http://localhost:8080/v1"
+)
+```
+
+## Managing Keys
+
+### View Keys
+
+The API Keys page displays:
+- Key name
+- Key value (click to view full key)
+- Status (enabled/disabled)
+- Usage count
+- Created date
+
+### Copy Key
+
+Click the copy button next to the key in the list to copy the full key.
+
+### Enable/Disable Key
+
+1. Find the key in the list
+2. Toggle the status switch
+3. Changes take effect immediately
+
+<Callout type="info">
+  Disabled keys will be rejected even if authentication is enabled.
+</Callout>
+
+### Delete Key
+
+1. Find the key in the list
+2. Click **Delete**
+3. Confirm deletion
+
+<Callout type="warn">
+  Deleting a key is permanent. Applications using that key will lose access.
+</Callout>
+
+## Best Practices
+
+| Practice | Description |
+|----------|-------------|
+| Use Separate Keys | Create different keys for different applications for easier management and revocation |
+| Regular Rotation | Rotate keys periodically for better security, recommended every 90 days |
+| Monitor Usage | Check logs regularly for unusual activity to detect security issues early |
+| Disable Unused Keys | Disable keys that are no longer needed to reduce security risks |
+| Secure Storage | Store keys in environment variables, not in code |
+
+## Troubleshooting
+
+<Accordions type="single">
+
+<Accordion title="Invalid API Key" value="invalid-key">
+**Error Response**:
+
+```json
+{
+  "error": {
+    "message": "Invalid API key",
+    "type": "invalid_request_error",
+    "code": "invalid_api_key"
+  }
+}
+```
+
+**Possible Causes and Solutions**:
+
+| Cause | Solution |
+|-------|----------|
+| Key entered incorrectly | Check if key is copied correctly, watch for leading/trailing spaces |
+| Key is disabled | Enable the key in API Keys page |
+| Authentication not enabled | Confirm authentication is enabled |
+| Key was deleted | Create a new API Key |
+</Accordion>
+
+<Accordion title="Missing API Key" value="missing-key">
+**Error Response**:
+
+```json
+{
+  "error": {
+    "message": "API key is required",
+    "type": "invalid_request_error",
+    "code": "missing_api_key"
+  }
+}
+```
+
+**Solutions**:
+
+| Method | Description |
+|--------|-------------|
+| Authorization Header | Add `Authorization: Bearer sk-xxxxxx` header |
+| X-API-Key Header | Add `X-API-Key: sk-xxxxxx` header |
+| URL Parameter | Add `?api_key=sk-xxxxxx` to URL |
+</Accordion>
+
+<Accordion title="Insufficient Key Permissions" value="permission-denied">
+**Possible Causes and Solutions**:
+
+| Cause | Solution |
+|-------|----------|
+| Key is disabled | Enable the key in API Keys page |
+| Authentication config changed | Check authentication settings in proxy config |
+| Key expired | Some keys may have expiration limits, create a new key |
+</Accordion>
+
+</Accordions>

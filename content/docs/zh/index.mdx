@@ -1,0 +1,94 @@
+---
+title: 概述
+description: 一个原生桌面应用程序，为多个 AI 服务提供商提供 OpenAI 兼容 API。支持在任何 OpenAI 兼容客户端中使用 DeepSeek、GLM、Kimi、MiniMax、Qwen、Z.ai 等服务，支持 macOS、Windows 和 Linux。
+icon: House
+---
+
+import { Download, Play, Server, Settings } from 'lucide-react';
+
+## 功能特性
+
+<Callout type="info">
+  Chat2API 核心功能
+</Callout>
+
+- **OpenAI 兼容 API**：提供标准 OpenAI 兼容接口，无缝对接现有工具
+- **多服务商支持**：支持 DeepSeek、GLM、Kimi、MiniMax、Qwen、Z.ai 等
+- **多轮对话支持**：完整支持多轮对话，提供会话管理和上下文保持功能
+- **工具调用支持**：通过提示词工程为所有模型提供通用工具调用能力
+- **模型映射**：灵活的模型名称映射，支持通配符和首选服务商选择
+- **自定义参数**：支持自定义 HTTP Header 开启联网搜索、深度思考等功能
+- **仪表盘监控**：实时请求流量、Token 使用量和成功率统计
+- **API Key 管理**：为本地代理生成和管理密钥
+
+## 快速开始
+
+<Cards>
+  <Card title="安装指南" href="/docs/introduction/installation" icon={<Download />} description="下载并在您的平台上安装 Chat2API" />
+  <Card title="快速开始" href="/docs/introduction/quick-start" icon={<Play />} description="开始设置您的第一个供应商" />
+  <Card title="供应商配置" href="/docs/basics/providers" icon={<Server />} description="配置 AI 服务供应商" />
+  <Card title="代理设置" href="/docs/basics/proxy" icon={<Settings />} description="配置代理服务器和负载均衡" />
+</Cards>
+
+## 支持的供应商
+
+| 供应商 | 认证类型 | OAuth | 模型 |
+|--------|----------|-------|------|
+| DeepSeek | User Token | 是 | DeepSeek-V3.2 |
+| GLM | Refresh Token | 是 | GLM-5 |
+| Kimi | JWT Token | 是 | Kimi-K2.5 |
+| MiniMax | JWT Token | 是 | MiniMax-M2.5 |
+| Qwen (国内版) | SSO Ticket | 是 | Qwen3.5-Plus, Qwen3-Max, Qwen3-Flash, Qwen3-Coder |
+| Qwen AI (国际版) | JWT Token | 是 | Qwen3.5-Plus, Qwen3-Max, Qwen3-VL-Plus, Qwen3-Coder-Plus |
+| Z.ai | JWT Token | 是 | GLM-5, GLM-4.7, GLM-4.6V, GLM-4.6 |
+
+## 架构
+
+```
+Chat2API/
+├── src/
+│   ├── main/                    # Electron 主进程
+│   │   ├── index.ts            # 应用入口
+│   │   ├── tray.ts             # 系统托盘集成
+│   │   ├── proxy/              # 代理服务器管理
+│   │   ├── ipc/                # IPC 处理器
+│   │   └── oauth/              # OAuth 认证
+│   ├── preload/                # 上下文桥接
+│   └── renderer/               # React 前端
+│       ├── components/         # UI 组件
+│       ├── pages/              # 页面组件
+│       ├── stores/             # Zustand 状态
+│       └── hooks/              # 自定义 Hooks
+├── build/                      # 构建资源
+└── scripts/                    # 构建脚本
+```
+
+## 技术栈
+
+| 组件 | 技术 |
+|------|------|
+| 框架 | Electron 33+ |
+| 前端 | React 18 + TypeScript |
+| 样式 | Tailwind CSS |
+| 状态管理 | Zustand |
+| 构建 | Vite + electron-vite |
+| 打包 | electron-builder |
+| 服务器 | Koa |
+
+## 数据存储
+
+应用数据存储在 `~/.chat2api/` 目录：
+
+- `config.json` - 应用配置
+- `providers.json` - 供应商设置
+- `accounts.json` - 账户凭证（加密）
+- `logs/` - 请求日志
+
+## 许可证
+
+GNU 通用公共许可证 v3.0。详见 [LICENSE](https://github.com/xiaoY233/Chat2API/blob/main/LICENSE)。
+
+这意味着：
+- 可免费使用、修改和分发
+- 衍生作品必须在相同许可证下开源
+- 必须保留原始版权声明

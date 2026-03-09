@@ -1,0 +1,125 @@
+---
+title: Kimi
+description: Kimi 是月之暗面（Moonshot AI）推出的 AI 助手，以长文本处理能力著称。
+---
+
+## 支持的模型
+
+| 模型 | 描述 |
+|------|------|
+| Kimi-K2.5 | 最新 Kimi K2.5 模型 |
+
+## 功能特性
+
+- 长文本处理（最高 200K tokens）
+- 联网搜索集成
+- 流式/非流式输出
+- 多轮对话支持
+- 工具调用支持
+- 免费账号不支持深度思考（官方限制）
+
+## 认证方式
+
+Kimi 支持 **OAuth 登录认证**、**Refresh Token 认证** 和 **JWT Token 认证** 三种方式。
+
+### 方式一：OAuth 登录认证（推荐）
+
+<Steps>
+  <Step title="添加供应商">
+    在 Chat2API 中点击**添加供应商**，选择 Kimi。
+  </Step>
+  
+  <Step title="选择认证方式">
+    选择 **OAuth 登录** 方式。
+  </Step>
+  
+  <Step title="浏览器登录">
+    点击**开始登录**，系统会自动打开浏览器跳转到 Kimi 登录页面。
+  </Step>
+  
+  <Step title="完成登录">
+    在浏览器中完成登录后，返回 Chat2API，系统会自动获取认证信息。
+  </Step>
+</Steps>
+
+### 方式二：Refresh Token
+
+<Steps>
+  <Step title="访问 Kimi">
+    前往 [Kimi](https://kimi.moonshot.cn/) 并登录。
+  </Step>
+  
+  <Step title="打开开发者工具">
+    按 `F12` 打开开发者工具。
+  </Step>
+  
+  <Step title="导航到 Application">
+    转到 **Application** > **Local Storage**。
+  </Step>
+  
+  <Step title="复制 Token">
+    找到 `refresh_token` 并复制其值。
+  </Step>
+</Steps>
+
+<Callout type="info">
+  如果 `refresh_token` 是数组，请用 `.`（点）拼接所有值。
+</Callout>
+
+### 方式三：JWT Token（kimi-auth Cookie）
+
+<Steps>
+  <Step title="访问 Kimi">
+    前往 [Kimi](https://kimi.moonshot.cn/) 并登录。
+  </Step>
+  
+  <Step title="打开开发者工具">
+    按 `F12` 打开开发者工具。
+  </Step>
+  
+  <Step title="导航到 Application">
+    转到 **Application** > **Cookies** > `https://www.kimi.com`。
+  </Step>
+  
+  <Step title="复制 Token">
+    找到 `kimi-auth` Cookie，复制其 JWT token 值（以 `eyJ` 开头）。
+  </Step>
+</Steps>
+
+## 添加到 Chat2API
+
+1. 导航到 **供应商** > **添加供应商**
+2. 从列表中选择 **Kimi**
+3. 粘贴您的 Token
+4. 点击 **验证** 确认
+5. 保存供应商
+
+## API 使用
+
+### 模型名称
+
+```json
+{
+  "model": "Kimi-K2.5",
+  "messages": [...]
+}
+```
+
+### 模型映射推荐
+
+| 模型名称 | 实际模型 | 描述 |
+|----------|----------|------|
+| `Kimi-K2.5-Think` | Kimi-K2.5 | 深度思考模型 |
+| `Kimi-K2.5-Search` | Kimi-K2.5 | 联网搜索模型 |
+| `Kimi-K2.5-Think-Search` | Kimi-K2.5 | 深度思考 + 联网搜索 |
+
+## 使用限制
+
+- 普通账户：每 3 小时约 30 次长文本对话
+- 短文本对话不限制
+- 普通账号不支持深度思考（官方限制）
+
+## 官方资源
+
+- [Kimi](https://kimi.moonshot.cn/)
+- [月之暗面开放平台](https://platform.moonshot.cn/)

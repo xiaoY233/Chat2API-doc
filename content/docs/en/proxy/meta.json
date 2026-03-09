@@ -1,0 +1,10 @@
+{
+  "title": "Proxy Settings",
+  "icon": "Route",
+  "pages": [
+    "index",
+    "basic-config",
+    "load-balancing",
+    "advanced-config"
+  ]
+}

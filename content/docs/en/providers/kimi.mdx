@@ -1,0 +1,125 @@
+---
+title: Kimi
+description: Kimi is an AI assistant by Moonshot AI, known for its long context processing capabilities.
+---
+
+## Supported Models
+
+| Model | Description |
+|-------|-------------|
+| Kimi-K2.5 | Latest Kimi K2.5 model |
+
+## Features
+
+- Long context processing (up to 200K tokens)
+- Web search integration
+- Streaming/non-streaming output
+- Multi-turn conversation support
+- Tool calling support
+- Free accounts do not support deep thinking (official limitation)
+
+## Authentication
+
+Kimi supports **OAuth Login**, **Refresh Token**, and **JWT Token** authentication methods.
+
+### Method 1: OAuth Login (Recommended)
+
+<Steps>
+  <Step title="Add Provider">
+    In Chat2API, click **Add Provider** and select Kimi.
+  </Step>
+  
+  <Step title="Select Authentication Method">
+    Choose **OAuth Login** method.
+  </Step>
+  
+  <Step title="Browser Login">
+    Click **Start Login**, the system will automatically open the browser and redirect to the Kimi login page.
+  </Step>
+  
+  <Step title="Complete Login">
+    After completing login in the browser, return to Chat2API, the system will automatically obtain authentication information.
+  </Step>
+</Steps>
+
+### Method 2: Refresh Token
+
+<Steps>
+  <Step title="Visit Kimi">
+    Go to [Kimi](https://kimi.moonshot.cn/) and log in.
+  </Step>
+  
+  <Step title="Open Developer Tools">
+    Press `F12` to open Developer Tools.
+  </Step>
+  
+  <Step title="Navigate to Application">
+    Go to **Application** > **Local Storage**.
+  </Step>
+  
+  <Step title="Copy Token">
+    Find `refresh_token` and copy its value.
+  </Step>
+</Steps>
+
+<Callout type="info">
+  If `refresh_token` is an array, join the values with `.` (dot).
+</Callout>
+
+### Method 3: JWT Token (kimi-auth Cookie)
+
+<Steps>
+  <Step title="Visit Kimi">
+    Go to [Kimi](https://kimi.moonshot.cn/) and log in.
+  </Step>
+  
+  <Step title="Open Developer Tools">
+    Press `F12` to open Developer Tools.
+  </Step>
+  
+  <Step title="Navigate to Application">
+    Go to **Application** > **Cookies** > `https://www.kimi.com`.
+  </Step>
+  
+  <Step title="Copy Token">
+    Find `kimi-auth` cookie and copy its JWT token value (starts with `eyJ`).
+  </Step>
+</Steps>
+
+## Adding to Chat2API
+
+1. Navigate to **Providers** > **Add Provider**
+2. Select **Kimi** from the list
+3. Paste your token
+4. Click **Validate** to verify
+5. Save the provider
+
+## API Usage
+
+### Model Names
+
+```json
+{
+  "model": "Kimi-K2.5",
+  "messages": [...]
+}
+```
+
+### Model Mapping Recommendations
+
+| Model Name | Actual Model | Description |
+|------------|--------------|-------------|
+| `Kimi-K2.5-Think` | Kimi-K2.5 | Deep thinking model |
+| `Kimi-K2.5-Search` | Kimi-K2.5 | Web search model |
+| `Kimi-K2.5-Think-Search` | Kimi-K2.5 | Deep thinking + Web search |
+
+## Rate Limits
+
+- Normal accounts: ~30 long-text conversations per 3 hours
+- Short text conversations are unlimited
+- Free accounts do not support deep thinking (official limitation)
+
+## Official Resources
+
+- [Kimi](https://kimi.moonshot.cn/)
+- [Moonshot AI Platform](https://platform.moonshot.cn/)

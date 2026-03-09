@@ -1,0 +1,72 @@
+---
+title: Model List
+description: View all available AI models from your configured providers.
+---
+
+## Overview
+
+The model list page displays all available models.
+
+## Viewing Models
+
+Navigate to **Model Management** > **Model List** from the sidebar:
+
+| Column | Description |
+|--------|-------------|
+| Model Name | Model identifier |
+| Provider | Provider offering this model |
+| Account | Account associated with the model |
+| Status | Online/Offline/Unknown |
+
+## Copy Model Names
+
+### Copy Selected Models
+
+1. Check the models you want to copy
+2. Click **Copy Selected** button
+3. Model names will be copied to clipboard
+
+### Copy All Models
+
+Click **Copy All** button to copy all model names.
+
+### Copy Format
+
+Copied model names are comma-separated:
+
+```
+DeepSeek-V3.2,GLM-5,Kimi-K2.5,Qwen3-Max
+```
+
+<Callout type="info">
+  Multiple model names are separated by comma `,`.
+</Callout>
+
+## API Usage
+
+### List Models
+
+```bash
+curl http://localhost:8080/v1/models
+```
+
+Response:
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "DeepSeek-V3.2",
+      "object": "model",
+      "created": 1234567890,
+      "owned_by": "deepseek"
+    }
+  ]
+}
+```
+
+### Get Model Details
+
+```bash
+curl http://localhost:8080/v1/models/DeepSeek-V3.2
+```

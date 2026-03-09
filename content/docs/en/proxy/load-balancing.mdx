@@ -1,0 +1,84 @@
+---
+title: Load Balancing
+description: Chat2API supports multiple load balancing strategies to distribute requests across accounts.
+---
+
+## Strategies
+
+### Round Robin
+
+Distributes requests evenly across all available accounts in sequence.
+
+**How it works:**
+1. Request 1 → Account A
+2. Request 2 → Account B
+3. Request 3 → Account C
+4. Request 4 → Account A (cycle repeats)
+
+**Best for:**
+- Even load distribution
+- Multiple accounts with similar limits
+- General use cases
+
+### Fill First
+
+Uses one account until its limit is reached, then switches to the next.
+
+**How it works:**
+1. Use Account A until daily limit is reached
+2. Switch to Account B
+3. Continue using B until limit
+4. Switch to Account C
+
+**Best for:**
+- Accounts with different limits
+- Maximizing single account usage
+- Reducing account switching
+
+### Failover
+
+Automatically skips failed accounts and switches to healthy ones.
+
+**How it works:**
+1. Mark account as failed after 3 consecutive errors
+2. Switch to next available account
+3. Automatically recover failed account after 1 minute
+
+**Best for:**
+- High availability requirements
+- Unstable provider connections
+- Production environments
+
+<Callout type="info">
+  Failed accounts are automatically recovered after 1 minute of inactivity.
+</Callout>
+
+## Configuration
+
+### Setting Strategy
+
+1. Navigate to **Proxy Settings** > **Load Balancing**
+2. Select strategy from dropdown
+3. Click **Save Configuration**
+
+### Strategy Comparison
+
+| Strategy | Distribution | Failover | Best Use Case |
+|----------|--------------|----------|---------------|
+| Round Robin | Even | No | General use |
+| Fill First | Sequential | No | Different limits |
+| Failover | Even | Yes | High availability |
+
+## Account Weights
+
+In Round Robin mode, you can assign weights to accounts:
+
+| Account | Weight | Selection Probability |
+|---------|--------|----------------------|
+| Account A | 50% | 50% |
+| Account B | 30% | 30% |
+| Account C | 20% | 20% |
+
+<Callout type="info">
+  Higher weight means higher selection probability. Only effective in Round Robin strategy.
+</Callout>

@@ -1,0 +1,170 @@
+---
+title: Web Search & Thinking
+description: Enable special features like web search, deep thinking, and deep research through request parameters or headers.
+icon: Sparkles
+---
+
+## Overview
+
+Chat2API supports special features that enhance AI capabilities. These features can be enabled through request parameters or HTTP headers.
+
+## Available Features
+
+| Feature | Parameter | Header | Description |
+|---------|-----------|--------|-------------|
+| Web Search | `web_search` | `X-Web-Search` | Enable internet search capability |
+| Deep Thinking | `reasoning_effort` | `X-Reasoning-Effort` | Enable extended reasoning mode |
+| Deep Research | `deep_research` | `X-Deep-Research` | Enable comprehensive research mode |
+
+## Web Search
+
+Enable AI to search the internet for up-to-date information.
+
+### Supported Providers
+
+| Provider | Support | Notes |
+|----------|---------|-------|
+| DeepSeek | ✅ | Fully supported |
+| GLM | ✅ | Fully supported |
+| Kimi | ✅ | Fully supported |
+| Qwen | ✅ | Fully supported |
+
+## Deep Thinking
+
+Enable extended reasoning for complex problems. The model thinks longer and provides more detailed analysis.
+
+### Effort Levels
+
+| Level | Description |
+|-------|-------------|
+| `low` | Quick thinking, faster response |
+| `medium` | Balanced thinking depth and speed |
+| `high` | Deep thinking, comprehensive analysis |
+
+### Supported Providers
+
+| Provider | Support | Notes |
+|----------|---------|-------|
+| DeepSeek | ✅ | Fully supported, outputs reasoning process |
+| GLM | ✅ | Fully supported |
+| Qwen | ✅ | Fully supported, thinking mode |
+| Qwen AI | ✅ | Fully supported, outputs reasoning process |
+
+## Deep Research
+
+Enable comprehensive research mode for in-depth analysis and information gathering.
+
+### Supported Providers
+
+| Provider | Support | Notes |
+|----------|---------|-------|
+| GLM | ✅ | Fully supported |
+
+## Client Configuration
+
+### Cline
+
+Configure in VS Code Cline plugin:
+
+1. Open Cline settings
+2. Set API Base URL to `http://localhost:8080/v1`
+3. Enter API Key
+4. When setting up model, add in Custom Headers:
+
+| Parameter | Type | Value |
+|-----------|------|-------|
+| `web_search` | boolean | `true` |
+| `reasoningEffort` | string | `low` / `medium` / `high` |
+
+### Roo Code / Kilo
+
+Configure in VS Code Roo Code or Kilo plugin:
+
+1. Open settings
+2. Set Base URL to `http://localhost:8080/v1`
+3. Enter API Key
+4. When setting up model, add in Custom Headers:
+
+| Parameter | Type | Value |
+|-----------|------|-------|
+| `web_search` | boolean | `true` |
+
+5. Enable reasoning effort and set model reasoning intensity
+
+### Cherry Studio
+
+Configure in Cherry Studio:
+
+1. Open Assistant settings
+2. Add in custom parameters:
+
+| Parameter | Type | Value |
+|-----------|------|-------|
+| `web_search` | boolean | `true` |
+| `reasoningEffort` | string | `low` / `medium` / `high` |
+
+## API Examples
+
+### Enable Web Search
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "What are the latest AI news today?"}
+    ],
+    "web_search": true
+  }'
+```
+
+### Enable Deep Thinking
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "Solve this complex math problem step by step..."}
+    ],
+    "reasoning_effort": "high"
+  }'
+```
+
+### Combine Features
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -H "X-Web-Search: true" \
+  -H "X-Reasoning-Effort: high" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "Research and analyze the current state of quantum computing..."}
+    ]
+  }'
+```
+
+## Notes
+
+<Callout type="warn">
+  Feature availability depends on provider support, model support, and account status. Verify provider support before using.
+</Callout>
+
+<Callout type="info">
+  Deep thinking and research modes increase response time. Use as needed. Combining features adds further latency.
+</Callout>
+
+## FAQ
+
+| Issue | Solution |
+|-------|----------|
+| Feature not working | Verify provider support, check parameter/header format |
+| Increased response time | Deep thinking and research modes take longer, use lower effort levels |
+| Unexpected results | Features may change model behavior, test with simple queries first |

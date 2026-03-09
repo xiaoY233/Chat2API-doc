@@ -1,0 +1,105 @@
+---
+title: Qwen AI (国际版)
+description: Qwen AI 国际版是 Qwen 的全球版本，支持深度思考和联网搜索功能。
+---
+
+## 支持的模型
+
+| 模型 | 描述 |
+|------|------|
+| Qwen3.5-Plus | Qwen3.5 Plus 模型 |
+| Qwen3.5-397B-A17B | 大规模模型 |
+| Qwen3-Max | Qwen3 Max 模型 |
+| Qwen3-235B-A22B-2507 | Qwen3 235B 模型 |
+| Qwen3-Coder | 代码专用模型 |
+| Qwen3-VL-235B-A22B | 视觉语言模型 |
+| Qwen3-Omni-Flash | 全能快速模型 |
+| Qwen2.5-Max | Qwen2.5 Max 模型 |
+
+## 功能特性
+
+- 深度思考模式
+- 联网搜索
+- 流式/非流式输出
+- 多轮对话支持
+- 工具调用支持
+
+## 认证方式
+
+Qwen AI 国际版支持 **OAuth 登录认证** 和 **JWT Token 认证** 两种方式。
+
+### 方式一：OAuth 登录认证（推荐）
+
+<Steps>
+  <Step title="添加供应商">
+    在 Chat2API 中点击**添加供应商**，选择 Qwen AI。
+  </Step>
+  
+  <Step title="选择认证方式">
+    选择 **OAuth 登录** 方式。
+  </Step>
+  
+  <Step title="浏览器登录">
+    点击**开始登录**，系统会自动打开浏览器跳转到 Qwen AI 登录页面。
+  </Step>
+  
+  <Step title="完成登录">
+    在浏览器中完成登录后，返回 Chat2API，系统会自动获取认证信息。
+  </Step>
+</Steps>
+
+### 方式二：JWT Token 认证
+
+<Steps>
+  <Step title="访问 Qwen AI">
+    前往 [Qwen AI](https://chat.qwen.ai/) 并登录。
+  </Step>
+  
+  <Step title="打开开发者工具">
+    按 `F12` 打开开发者工具。
+  </Step>
+  
+  <Step title="导航到 Application">
+    转到 **Application** > **Local Storage**。
+  </Step>
+  
+  <Step title="复制 Token">
+    找到名为 `token` 的键，复制其 JWT 值（以 `eyJ` 开头）。
+  </Step>
+</Steps>
+
+<Callout type="info">
+  您可以选择性地提供 Cookies 以增强兼容性。
+</Callout>
+
+## 添加到 Chat2API
+
+1. 导航到 **供应商** > **添加供应商**
+2. 从列表中选择 **Qwen AI**
+3. 输入您的 JWT Token
+4. 可选：添加 Cookies 字符串
+5. 点击 **验证** 确认
+6. 保存供应商
+
+## API 使用
+
+### 模型名称
+
+```json
+{
+  "model": "Qwen3.5-Plus",
+  "messages": [...]
+}
+```
+
+### 模型映射推荐
+
+| 模型名称 | 实际模型 | 描述 |
+|----------|----------|------|
+| `Qwen3.5-Plus-Think` | Qwen3.5-Plus | 深度思考模型 |
+| `Qwen3.5-Plus-Search` | Qwen3.5-Plus | 联网搜索模型 |
+| `Qwen3.5-Plus-Think-Search` | Qwen3.5-Plus | 深度思考 + 联网搜索 |
+
+## 官方资源
+
+- [Qwen AI](https://chat.qwen.ai/)

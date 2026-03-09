@@ -1,0 +1,81 @@
+---
+title: 供应商概述
+description: Chat2API 支持多个 AI 服务供应商。每个供应商需要认证凭证才能访问其 API。
+---
+
+## 内置供应商
+
+| 供应商 | 描述 | 认证类型 | 模型 |
+|--------|------|----------|------|
+| [DeepSeek](/docs/providers/deepseek) | DeepSeek AI 助手，支持深度思考 | User Token | DeepSeek-V3.2 |
+| [GLM](/docs/providers/glm) | 智谱清言 AI 助手 | Refresh Token | GLM-5 |
+| [Kimi](/docs/providers/kimi) | Kimi AI 助手，支持长文本 | JWT Token | kimi-k2.5 |
+| [MiniMax](/docs/providers/minimax) | MiniMax 海螺 AI 助手 | JWT Token | MiniMax-M2.5 |
+| [Qwen](/docs/providers/qwen) | 阿里通义千问（国内版） | SSO Ticket | Qwen3.5-Plus, Qwen3-Max 等 |
+| [Qwen AI](/docs/providers/qwen-ai) | Qwen AI 国际版 | JWT Token | Qwen3.5-Plus, Qwen3-Max 等 |
+| [Z.ai](/docs/providers/zai) | Z.ai 免费 AI 聊天机器人 | JWT Token | GLM-5, GLM-4.7 等 |
+
+## 供应商管理
+
+### 添加供应商
+
+1. 从侧边栏导航到**供应商**
+2. 点击**添加供应商**按钮
+3. 从列表中选择内置供应商
+4. 输入认证凭证
+5. 点击**验证**确认凭证有效
+6. 保存供应商
+
+### 供应商状态
+
+每个供应商显示：
+- **在线/离线**：供应商 API 是否可访问
+- **活跃账户**：已配置的活跃账户数量
+- **延迟**：供应商响应时间
+
+### 账户管理
+
+每个供应商可以有多个账户：
+- 添加多个账户实现负载均衡
+- 设置每个账户的每日限额
+- 监控账户状态和使用情况
+
+## 认证方式
+
+不同供应商使用不同的认证方式：
+
+| 认证类型 | 描述 | 存储位置 |
+|----------|------|----------|
+| User Token | 直接用户认证令牌 | Local Storage |
+| Refresh Token | 长期刷新令牌 | Cookies |
+| JWT Token | JSON Web Token | Local Storage / Cookies |
+| SSO Ticket | 单点登录票据 | Cookies |
+
+## 获取凭证
+
+<Callout type="info">
+  获取每个供应商凭证的详细说明，请参阅具体的供应商文档页面。
+</Callout>
+
+一般流程：
+1. 登录供应商的网页界面
+2. 打开浏览器开发者工具（F12）
+3. 导航到 Application 标签
+4. 在 Local Storage 或 Cookies 中找到令牌
+5. 复制令牌值
+
+## 账户状态类型
+
+| 状态 | 描述 |
+|------|------|
+| 活跃 | 账户正常工作 |
+| 未激活 | 账户已禁用 |
+| 已过期 | 令牌已过期 |
+| 错误 | 认证失败 |
+
+## 最佳实践
+
+1. **多账户**：为每个供应商配置多个账户实现负载均衡
+2. **每日限额**：设置合理的每日限额避免触发限制
+3. **定期验证**：定期验证令牌确保仍然有效
+4. **安全存储**：凭证在本地 `~/.chat2api/accounts.json` 中加密存储

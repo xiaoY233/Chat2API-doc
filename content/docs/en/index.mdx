@@ -1,0 +1,94 @@
+---
+title: Overview
+description: A native desktop application that provides an OpenAI-compatible API for multiple AI service providers. Use any OpenAI-compatible client with DeepSeek, GLM, Kimi, MiniMax, Qwen, Z.ai and more across macOS, Windows, and Linux.
+icon: House
+---
+
+import { Download, Play, Server, Settings } from 'lucide-react';
+
+## Features
+
+<Callout type="info">
+  Core features of Chat2API
+</Callout>
+
+- **OpenAI Compatible API**: Provides standard OpenAI-compatible interface for seamless integration with existing tools
+- **Multi-Provider Support**: Supports DeepSeek, GLM, Kimi, MiniMax, Qwen, Z.ai and more
+- **Multi-turn Conversation Support**: Full support for multi-turn conversations with session management and context preservation
+- **Tool Calling Support**: Universal tool calling capability for all models via prompt engineering
+- **Model Mapping**: Flexible model name mapping with wildcard support and preferred provider selection
+- **Custom Parameters**: Support custom HTTP Headers to enable web search, deep thinking and other features
+- **Dashboard Monitoring**: Real-time request traffic, token usage and success rate statistics
+- **API Key Management**: Generate and manage keys for local proxy
+
+## Quick Start
+
+<Cards>
+  <Card title="Installation" href="/docs/introduction/installation" icon={<Download />} description="Download and install Chat2API on your platform" />
+  <Card title="Quick Start" href="/docs/introduction/quick-start" icon={<Play />} description="Get started with your first provider setup" />
+  <Card title="Providers" href="/docs/basics/providers" icon={<Server />} description="Configure AI service providers" />
+  <Card title="Proxy Settings" href="/docs/basics/proxy" icon={<Settings />} description="Configure proxy server and load balancing" />
+</Cards>
+
+## Supported Providers
+
+| Provider | Auth Type | OAuth | Models |
+|----------|-----------|-------|--------|
+| DeepSeek | User Token | Yes | DeepSeek-V3.2 |
+| GLM | Refresh Token | Yes | GLM-5 |
+| Kimi | JWT Token | Yes | Kimi-K2.5 |
+| MiniMax | JWT Token | Yes | MiniMax-M2.5 |
+| Qwen (CN) | SSO Ticket | Yes | Qwen3.5-Plus, Qwen3-Max, Qwen3-Flash, Qwen3-Coder |
+| Qwen AI (Global) | JWT Token | Yes | Qwen3.5-Plus, Qwen3-Max, Qwen3-VL-Plus, Qwen3-Coder-Plus |
+| Z.ai | JWT Token | Yes | GLM-5, GLM-4.7, GLM-4.6V, GLM-4.6 |
+
+## Architecture
+
+```
+Chat2API/
+├── src/
+│   ├── main/                    # Electron main process
+│   │   ├── index.ts            # App entry point
+│   │   ├── tray.ts             # System tray integration
+│   │   ├── proxy/              # Proxy server management
+│   │   ├── ipc/                # IPC handlers
+│   │   └── oauth/              # OAuth authentication
+│   ├── preload/                # Context bridge
+│   └── renderer/               # React frontend
+│       ├── components/         # UI components
+│       ├── pages/              # Page components
+│       ├── stores/             # Zustand state
+│       └── hooks/              # Custom hooks
+├── build/                      # Build resources
+└── scripts/                    # Build scripts
+```
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| Framework | Electron 33+ |
+| Frontend | React 18 + TypeScript |
+| Styling | Tailwind CSS |
+| State | Zustand |
+| Build | Vite + electron-vite |
+| Packaging | electron-builder |
+| Server | Koa |
+
+## Data Storage
+
+Application data is stored in `~/.chat2api/` directory:
+
+- `config.json` - Application configuration
+- `providers.json` - Provider settings
+- `accounts.json` - Account credentials (encrypted)
+- `logs/` - Request logs
+
+## License
+
+GNU General Public License v3.0. See [LICENSE](https://github.com/xiaoY233/Chat2API/blob/main/LICENSE) for details.
+
+This means:
+- Free to use, modify, and distribute
+- Derivative works must be open-sourced under the same license
+- Must preserve original copyright notices

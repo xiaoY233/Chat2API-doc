@@ -1,0 +1,81 @@
+---
+title: Providers Overview
+description: Chat2API supports multiple AI service providers. Each provider requires authentication credentials to access their API.
+---
+
+## Built-in Providers
+
+| Provider | Description | Auth Type | Models |
+|----------|-------------|-----------|--------|
+| [DeepSeek](/docs/providers/deepseek) | DeepSeek AI assistant with deep thinking | User Token | DeepSeek-V3.2 |
+| [GLM](/docs/providers/glm) | Zhipu Qingyan AI assistant | Refresh Token | GLM-5 |
+| [Kimi](/docs/providers/kimi) | Kimi AI assistant with long context | JWT Token | kimi-k2.5 |
+| [MiniMax](/docs/providers/minimax) | MiniMax Hailuo AI assistant | JWT Token | MiniMax-M2.5 |
+| [Qwen](/docs/providers/qwen) | Alibaba Qwen (China) | SSO Ticket | Qwen3.5-Plus, Qwen3-Max, etc. |
+| [Qwen AI](/docs/providers/qwen-ai) | Qwen AI International | JWT Token | Qwen3.5-Plus, Qwen3-Max, etc. |
+| [Z.ai](/docs/providers/zai) | Z.ai free AI chatbot | JWT Token | GLM-5, GLM-4.7, etc. |
+
+## Provider Management
+
+### Adding a Provider
+
+1. Navigate to **Providers** from the sidebar
+2. Click **Add Provider** button
+3. Select a built-in provider from the list
+4. Enter your authentication credentials
+5. Click **Validate** to verify credentials
+6. Save the provider
+
+### Provider Status
+
+Each provider shows:
+- **Online/Offline**: Whether the provider API is accessible
+- **Active Accounts**: Number of active accounts configured
+- **Latency**: Response time from the provider
+
+### Account Management
+
+Each provider can have multiple accounts:
+- Add multiple accounts for load balancing
+- Set daily limits per account
+- Monitor account status and usage
+
+## Authentication Methods
+
+Different providers use different authentication methods:
+
+| Auth Type | Description | Storage Location |
+|-----------|-------------|------------------|
+| User Token | Direct user authentication token | Local Storage |
+| Refresh Token | Long-lived refresh token | Cookies |
+| JWT Token | JSON Web Token | Local Storage / Cookies |
+| SSO Ticket | Single Sign-On ticket | Cookies |
+
+## Getting Your Credentials
+
+<Callout type="info">
+  For detailed instructions on obtaining credentials for each provider, see the specific provider documentation pages.
+</Callout>
+
+The general process is:
+1. Log in to the provider's web interface
+2. Open browser Developer Tools (F12)
+3. Navigate to Application tab
+4. Find the token in Local Storage or Cookies
+5. Copy the token value
+
+## Account Status Types
+
+| Status | Description |
+|--------|-------------|
+| Active | Account is working normally |
+| Inactive | Account is disabled |
+| Expired | Token has expired |
+| Error | Authentication failed |
+
+## Best Practices
+
+1. **Multiple Accounts**: Configure multiple accounts per provider for load balancing
+2. **Daily Limits**: Set reasonable daily limits to avoid rate limiting
+3. **Regular Validation**: Periodically validate tokens to ensure they're still valid
+4. **Secure Storage**: Credentials are encrypted locally in `~/.chat2api/accounts.json`

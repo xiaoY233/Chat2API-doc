@@ -1,0 +1,165 @@
+{
+  "site": {
+    "title": "Chat2API",
+    "description": "Multi-platform AI Service Unified Management Tool - OpenAI Compatible API Proxy"
+  },
+  "nav": {
+    "docs": "Documentation",
+    "blog": "Blog",
+    "home": "Home"
+  },
+  "search": {
+    "placeholder": "Search...",
+    "noResults": "No results found",
+    "loading": "Loading..."
+  },
+  "toc": {
+    "title": "On This Page"
+  },
+  "lastUpdate": "Last updated",
+  "sidebar": {
+    "toggle": "Toggle Sidebar"
+  },
+  "language": {
+    "switch": "Switch Language"
+  },
+  "home": {
+    "hero": {
+      "badge": "AI Service Unified Management Tool",
+      "title": "Chat2API",
+      "subtitle": "Transform AI chat interfaces into OpenAI-compatible APIs",
+      "getStarted": "Get Started",
+      "viewOnGithub": "View on GitHub"
+    },
+    "intro": {
+      "description": "Chat2API is a <highlight>cross-platform</highlight> desktop application that transforms AI chat interfaces into <highlight>OpenAI-compatible</highlight> APIs. Built with Electron, React, and TypeScript for best experience."
+    },
+    "terminal": {
+      "title": "Terminal Demo"
+    },
+    "features": {
+      "title": "Features",
+      "subtitle": "Everything you need to manage AI services in one place",
+      "items": {
+        "openai": {
+          "title": "OpenAI Compatible",
+          "description": "Standard OpenAI-compatible API endpoints for seamless integration with existing tools"
+        },
+        "providers": {
+          "title": "Multi-Provider Support",
+          "description": "Support DeepSeek, GLM, Kimi, MiniMax, Qwen, Z.ai and more AI services"
+        },
+        "dashboard": {
+          "title": "Dashboard Monitoring",
+          "description": "Real-time request traffic, token usage, and success rate statistics"
+        },
+        "proxy": {
+          "title": "Proxy Configuration",
+          "description": "Flexible proxy settings and load balancing strategies"
+        },
+        "apikeys": {
+          "title": "API Key Management",
+          "description": "Generate and manage API keys for secure access control"
+        },
+        "logs": {
+          "title": "Request Logging",
+          "description": "Detailed request logs for debugging and analysis"
+        }
+      }
+    },
+    "providers": {
+      "title": "Supported Providers",
+      "subtitle": "Connect to multiple AI services with a single unified API"
+    },
+    "codeExample": {
+      "title": "Simple Integration",
+      "subtitle": "Add a provider in your client tool, select OpenAI or OpenAI Compatible as type, add BaseURL and API Key, then add model names from the model list",
+      "moreComing": "More clients are being adapted...",
+      "tools": {
+        "githubCopilot": {
+          "name": "GitHub Copilot",
+          "description": "VS Code extension"
+        },
+        "rooCode": {
+          "name": "RooCode",
+          "description": "AI coding assistant"
+        },
+        "cline": {
+          "name": "Cline",
+          "description": "Autonomous coding agent"
+        },
+        "cherryStudio": {
+          "name": "Cherry Studio",
+          "description": "Desktop AI client"
+        }
+      }
+    },
+    "architecture": {
+      "title": "Built with Modern Tech",
+      "subtitle": "Powered by Electron, React, and TypeScript for the best experience"
+    },
+    "quickStart": {
+      "title": "Quick Start",
+      "subtitle": "Get up and running in minutes",
+      "step1": "Download from GitHub Releases",
+      "step2": "Install and launch the app",
+      "step3": "Configure providers and start proxy",
+      "step4": "Start integrating with your apps"
+    },
+    "screenshots": {
+      "title": "App Preview",
+      "subtitle": "See Chat2API in action",
+      "items": {
+        "dashboard": "Dashboard",
+        "providers": "Providers",
+        "proxy": "Proxy Settings",
+        "models": "Models",
+        "api-keys": "API Keys",
+        "logs": "Request Logs",
+        "settings": "Settings",
+        "about": "About"
+      }
+    },
+    "openSource": {
+      "title": "Open Source",
+      "subtitle": "Free and open source under GPL-3.0 license. Star us on GitHub!",
+      "viewOnGitHub": "Star on GitHub"
+    },
+    "faq": {
+      "title": "FAQ",
+      "subtitle": "Common questions about Chat2API",
+      "important": "Important",
+      "notice": "Notice",
+      "items": {
+        "q1": {
+          "question": "Which AI providers does Chat2API support?",
+          "answer": "Chat2API currently supports major AI providers including DeepSeek, GLM, Kimi, MiniMax, Qwen, Z.ai, and more are being added continuously."
+        },
+        "q2": {
+          "question": "How do I get an API Key?",
+          "answer": "In the Chat2API app, you can generate custom API Keys. Go to the API Keys management page and click generate a new key."
+        },
+        "q3": {
+          "question": "Is my data secure?",
+          "answer": "Chat2API is a local application, all data is stored on your local device. API Keys are encrypted with AES-256 to ensure your credentials are secure."
+        },
+        "q4": {
+          "question": "Which client tools are supported?",
+          "answer": "All OpenAI API compatible client tools are supported, including GitHub Copilot, RooCode, Cline, Cherry Studio, etc. Just set the Base URL to Chat2API's proxy address."
+        },
+        "q5": {
+          "question": "Is Chat2API free?",
+          "answer": "Yes, Chat2API is free and open source software released under GPL-3.0 license. You can view the source code on GitHub and contribute."
+        },
+        "q6": {
+          "question": "Are there any usage restrictions?",
+          "answer": "This project is for learning and personal use only. Please do not abuse or create accounts in bulk. We recommend supporting official services by purchasing legitimate API plans for a more stable experience."
+        },
+        "q7": {
+          "question": "Why is it not recommended for use in programming IDEs?",
+          "answer": "Chat2API is based on Web API implementation, which has certain instability and functional limitations. It may not perform well in high-frequency usage scenarios like programming IDEs, and there is a risk of account suspension. It is better suited for lightweight conversation scenarios."
+        }
+      }
+    }
+  }
+}

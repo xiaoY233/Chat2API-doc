@@ -1,0 +1,15 @@
+{
+  "title": "Providers",
+  "icon": "Server",
+  "pages": [
+    "index",
+    "deepseek",
+    "glm",
+    "kimi",
+    "minimax",
+    "qwen",
+    "qwen-ai",
+    "zai",
+    "custom"
+  ]
+}

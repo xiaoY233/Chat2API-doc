@@ -1,0 +1,187 @@
+---
+title: API Key 管理
+description: API Key 用于访问 Chat2API 代理服务器的认证。创建、管理和使用密钥来保护您的代理端点。
+icon: Key
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
+
+## 概述
+
+启用 API Key 认证后，所有对代理的请求都必须包含有效的 API Key。
+
+## 启用认证
+
+1. 从侧边栏导航到 **API Keys**
+2. 切换 **启用认证**
+3. 创建至少一个 API Key
+
+<Callout type="warn">
+  在将代理暴露到网络之前启用认证，以防止未授权访问。
+</Callout>
+
+## 创建 API Key
+
+### 步骤
+
+1. 点击 **新建 API Key** 按钮
+2. 输入名称（如"生产环境"、"开发环境"）
+3. 添加可选的描述
+4. 点击 **创建**
+
+### 密钥格式
+
+API Key 生成格式：
+```
+sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+<Callout type="warn">
+  请安全存储您的 API Key。将密钥存储在环境变量中，不要写在代码里。
+</Callout>
+
+## 使用 API Key
+
+### 方式一：Authorization Header（推荐）
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Authorization: Bearer sk-xxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "gpt-4", "messages": [...]}'
+```
+
+### 方式二：X-API-Key Header
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "X-API-Key: sk-xxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "gpt-4", "messages": [...]}'
+```
+
+### 方式三：URL 参数
+
+```bash
+curl "http://localhost:8080/v1/chat/completions?api_key=sk-xxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "gpt-4", "messages": [...]}'
+```
+
+### 使用 OpenAI SDK
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-xxxxxx",
+    base_url="http://localhost:8080/v1"
+)
+```
+
+## 管理密钥
+
+### 查看密钥
+
+API Keys 页面显示：
+- 密钥名称
+- 密钥值（可点击查看完整密钥）
+- 状态（启用/禁用）
+- 使用次数
+- 创建日期
+
+### 复制密钥
+
+在列表中点击密钥旁边的复制按钮即可复制完整密钥。
+
+### 启用/禁用密钥
+
+1. 在列表中找到密钥
+2. 切换状态开关
+3. 更改立即生效
+
+<Callout type="info">
+  禁用的密钥即使认证启用也会被拒绝。
+</Callout>
+
+### 删除密钥
+
+1. 在列表中找到密钥
+2. 点击 **删除**
+3. 确认删除
+
+<Callout type="warn">
+  删除密钥是永久性的。使用该密钥的应用程序将失去访问权限。
+</Callout>
+
+## 最佳实践
+
+| 实践 | 说明 |
+|------|------|
+| 使用独立密钥 | 为不同应用创建不同密钥，便于管理和撤销 |
+| 定期轮换 | 定期轮换密钥以提高安全性，建议每 90 天更换 |
+| 监控使用 | 定期检查日志发现异常活动，及时发现安全问题 |
+| 禁用未使用密钥 | 禁用不再需要的密钥，减少安全风险 |
+| 安全存储 | 将密钥存储在环境变量中，不要写在代码里 |
+
+## 故障排除
+
+<Accordions type="single">
+
+<Accordion title="无效 API Key" value="invalid-key">
+**错误响应**：
+
+```json
+{
+  "error": {
+    "message": "Invalid API key",
+    "type": "invalid_request_error",
+    "code": "invalid_api_key"
+  }
+}
+```
+
+**可能原因及解决方案**：
+
+| 原因 | 解决方案 |
+|------|----------|
+| 密钥输入错误 | 检查密钥是否正确复制，注意前后空格 |
+| 密钥已禁用 | 在 API Keys 页面启用该密钥 |
+| 认证未启用 | 确认认证已启用 |
+| 密钥已删除 | 创建新的 API Key |
+</Accordion>
+
+<Accordion title="缺少 API Key" value="missing-key">
+**错误响应**：
+
+```json
+{
+  "error": {
+    "message": "API key is required",
+    "type": "invalid_request_error",
+    "code": "missing_api_key"
+  }
+}
+```
+
+**解决方案**：
+
+| 方法 | 说明 |
+|------|------|
+| Authorization Header | 添加 `Authorization: Bearer sk-xxxxxx` 请求头 |
+| X-API-Key Header | 添加 `X-API-Key: sk-xxxxxx` 请求头 |
+| URL 参数 | 在 URL 中添加 `?api_key=sk-xxxxxx` |
+</Accordion>
+
+<Accordion title="密钥权限不足" value="permission-denied">
+**可能原因及解决方案**：
+
+| 原因 | 解决方案 |
+|------|----------|
+| 密钥被禁用 | 在 API Keys 页面启用该密钥 |
+| 认证配置变更 | 检查代理设置中的认证配置 |
+| 密钥过期 | 某些密钥可能有有效期限制，创建新密钥 |
+</Accordion>
+
+</Accordions>

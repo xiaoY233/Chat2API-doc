@@ -1,0 +1,243 @@
+---
+title: 常见问题
+description: 常见问题和解决方案。查找关于安装、代理、认证、性能等问题的答案。
+icon: CircleQuestionMark
+---
+
+import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## 重要提示
+
+<Callout type="warn">
+  本项目仅供学习交流使用，请勿滥用或大量创建账号。建议支持官方服务，购买正规 API 套餐以获得更稳定的服务体验。
+</Callout>
+
+<Callout type="info">
+  Chat2API 基于 Web API 实现，存在一定的不稳定性和功能限制。在编程 IDE 等高频调用场景下体验可能不佳，且存在账号被封禁的风险，建议用于轻量级对话场景。
+</Callout>
+
+## 安装问题
+
+<Accordions type="single">
+
+<Accordion title="macOS：App已损坏，无法打开" value="macos">
+在 macOS 上尝试打开 Chat2API 时，出现应用已损坏的错误提示。
+
+**解决方案**：
+```bash
+sudo xattr -rd com.apple.quarantine "/Applications/Chat2API.app"
+```
+
+这会移除 macOS 对非 App Store 下载应用施加的隔离属性。
+</Accordion>
+
+<Accordion title="Windows：SmartScreen 警告" value="windows">
+运行安装程序时 Windows 显示"Windows 已保护你的电脑"。
+
+**解决方案**：
+1. 点击"更多信息"
+2. 点击"仍要运行"
+
+这是因为应用未经代码签名。应用是安全的。
+</Accordion>
+
+<Accordion title="Linux：AppImage 无法运行" value="linux">
+双击 AppImage 文件没有启动应用。
+
+**解决方案**：
+```bash
+chmod +x Chat2API-x.x.x-x64.AppImage
+./Chat2API-x.x.x-x64.AppImage
+```
+
+确保文件具有执行权限。
+</Accordion>
+
+</Accordions>
+
+## 代理问题
+
+<Accordions type="single">
+
+<Accordion title="端口已被占用" value="port">
+启动代理时出现"端口 8080 已被占用"错误。
+
+**解决方案**：
+1. 查找占用端口的进程：
+   ```bash
+   # macOS/Linux
+   lsof -i :8080
+   
+   # Windows
+   netstat -ano | findstr :8080
+   ```
+2. 停止冲突的服务或在设置中更改代理端口。
+</Accordion>
+
+<Accordion title="连接被拒绝" value="connection">
+API 请求失败，显示"连接被拒绝"。
+
+**解决方案**：
+1. 验证代理是否正在运行（检查状态指示器）
+2. 检查是否使用了正确的端口
+3. 确保防火墙允许连接到该端口
+</Accordion>
+
+<Accordion title="CORS 错误" value="cors">
+浏览器请求失败，出现 CORS 错误。
+
+**解决方案**：
+1. 转到 **代理设置** > **基础配置**
+2. 启用 CORS
+3. 将您的来源添加到允许列表
+</Accordion>
+
+</Accordions>
+
+## 认证问题
+
+<Accordions type="single">
+
+<Accordion title="Token 无效" value="token-invalid">
+供应商显示"Token 无效"错误。
+
+**解决方案**：
+1. 重新登录供应商网站
+2. 从浏览器存储获取新的 Token
+3. 在 Chat2API 中更新 Token
+</Accordion>
+
+<Accordion title="Token 过期" value="token-expired">
+认证最初成功，但后来失败。
+
+**解决方案**：
+- 不同供应商的 Token 有效期不同
+- 有些 Token 几小时后过期，有些几天后过期
+- 发生这种情况时重新登录获取新 Token
+</Accordion>
+
+<Accordion title="OAuth 登录失败" value="oauth">
+OAuth 登录过程未完成。
+
+**解决方案**：
+1. 确保浏览器允许弹出窗口
+2. 清除供应商的浏览器 Cookie
+3. 尝试使用手动输入 Token 的方式
+</Accordion>
+
+</Accordions>
+
+## 性能问题
+
+<Accordions type="single">
+
+<Accordion title="响应缓慢" value="slow">
+API 响应很慢。
+
+**解决方案**：
+1. 检查网络连接
+2. 尝试其他供应商
+3. 检查供应商是否遇到问题
+4. 减少请求复杂度（更短的提示）
+</Accordion>
+
+<Accordion title="速率限制" value="rate-limit">
+被供应商限制速率。
+
+**解决方案**：
+1. 为供应商添加多个账户
+2. 使用轮询负载均衡策略
+3. 为每个账户设置适当的每日限额
+4. 降低请求频率
+</Accordion>
+
+</Accordions>
+
+## 数据问题
+
+<Accordions type="single">
+
+<Accordion title="配置丢失" value="config-lost">
+设置或供应商消失了。
+
+**解决方案**：
+1. 检查 `~/.chat2api/` 中是否有数据
+2. 如果有备份，导入备份
+3. 重新配置供应商
+</Accordion>
+
+<Accordion title="导出/导入不工作" value="export">
+导出或导入失败。
+
+**解决方案**：
+1. 确保对导出位置有写入权限
+2. 验证导入文件是有效的 JSON
+3. 检查文件是否损坏
+</Accordion>
+
+</Accordions>
+
+## 更新问题
+
+<Accordions type="single">
+
+<Accordion title="如何更新" value="update">
+**方法一：自动更新**
+1. 转到 **关于** 页面
+2. 点击 **检查更新**
+3. 下载并安装
+
+**方法二：手动更新**
+1. 从 GitHub Releases 下载最新版本
+2. 覆盖安装
+3. 您的数据将被保留
+</Accordion>
+
+<Accordion title="更新失败" value="update-failed">
+更新安装失败。
+
+**解决方案**：
+1. 手动下载最新版本
+2. 卸载旧版本
+3. 安装新版本
+4. `~/.chat2api/` 中的数据将被保留
+</Accordion>
+
+</Accordions>
+
+## 一般问题
+
+<Accordions type="single">
+
+<Accordion title="Chat2API 是免费的吗？" value="free">
+是的，Chat2API 是免费的开源软件，采用 GNU GPL v3.0 许可证。
+</Accordion>
+
+<Accordion title="我的数据安全吗？" value="security">
+- 所有凭证使用 AES-256 加密
+- 数据存储在您的设备本地
+- 不会向外部服务器发送数据（AI 供应商 API 除外）
+</Accordion>
+
+<Accordion title="可以使用多个账户吗？" value="multi-account">
+可以！您可以为每个供应商添加多个账户，并使用负载均衡分配请求。
+</Accordion>
+
+<Accordion title="支持哪些供应商？" value="providers">
+| 供应商 | 地区 |
+|--------|------|
+| DeepSeek | 全球 |
+| GLM (智谱清言) | 中国 |
+| Kimi | 全球 |
+| MiniMax (海螺 AI) | 中国 |
+| Qwen (通义千问) | 中国 |
+| Qwen AI | 全球 |
+| Z.ai | 全球 |
+</Accordion>
+
+<Accordion title="如何报告 Bug？" value="bug">
+在 [GitHub Issues](https://github.com/xiaoY233/Chat2API/issues) 报告问题。
+</Accordion>
+
+</Accordions>

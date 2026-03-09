@@ -1,0 +1,105 @@
+---
+title: Qwen AI (International)
+description: Qwen AI International is the global version of Qwen, supporting deep thinking and web search capabilities.
+---
+
+## Supported Models
+
+| Model | Description |
+|-------|-------------|
+| Qwen3.5-Plus | Qwen3.5 Plus model |
+| Qwen3.5-397B-A17B | Large scale model |
+| Qwen3-Max | Qwen3 Max model |
+| Qwen3-235B-A22B-2507 | Qwen3 235B model |
+| Qwen3-Coder | Code specialized model |
+| Qwen3-VL-235B-A22B | Vision language model |
+| Qwen3-Omni-Flash | Omni flash model |
+| Qwen2.5-Max | Qwen2.5 Max model |
+
+## Features
+
+- Deep thinking mode
+- Web search
+- Streaming/non-streaming output
+- Multi-turn conversation support
+- Tool calling support
+
+## Authentication
+
+Qwen AI International supports **OAuth Login** and **JWT Token** authentication methods.
+
+### Method 1: OAuth Login (Recommended)
+
+<Steps>
+  <Step title="Add Provider">
+    In Chat2API, click **Add Provider** and select Qwen AI.
+  </Step>
+  
+  <Step title="Select Authentication Method">
+    Choose **OAuth Login** method.
+  </Step>
+  
+  <Step title="Browser Login">
+    Click **Start Login**, the system will automatically open the browser and redirect to the Qwen AI login page.
+  </Step>
+  
+  <Step title="Complete Login">
+    After completing login in the browser, return to Chat2API, the system will automatically obtain authentication information.
+  </Step>
+</Steps>
+
+### Method 2: JWT Token Authentication
+
+<Steps>
+  <Step title="Visit Qwen AI">
+    Go to [Qwen AI](https://chat.qwen.ai/) and log in.
+  </Step>
+  
+  <Step title="Open Developer Tools">
+    Press `F12` to open Developer Tools.
+  </Step>
+  
+  <Step title="Navigate to Application">
+    Go to **Application** > **Local Storage**.
+  </Step>
+  
+  <Step title="Copy Token">
+    Find the key named `token` and copy its JWT value (starts with `eyJ`).
+  </Step>
+</Steps>
+
+<Callout type="info">
+  You can optionally provide Cookies for enhanced compatibility.
+</Callout>
+
+## Adding to Chat2API
+
+1. Navigate to **Providers** > **Add Provider**
+2. Select **Qwen AI** from the list
+3. Enter your JWT Token
+4. Optional: Add Cookies string
+5. Click **Validate** to verify
+6. Save the provider
+
+## API Usage
+
+### Model Names
+
+```json
+{
+  "model": "Qwen3.5-Plus",
+  "messages": [...]
+}
+```
+
+### Model Mapping Recommendations
+
+| Model Name | Actual Model | Description |
+|------------|--------------|-------------|
+| `Qwen3.5-Plus-Think` | Qwen3.5-Plus | Deep thinking model |
+| `Qwen3.5-Plus-Search` | Qwen3.5-Plus | Web search model |
+| `Qwen3.5-Plus-Think-Search` | Qwen3.5-Plus | Deep thinking + Web search |
+
+## Official Resources
+
+- [Qwen AI](https://chat.qwen.ai/)

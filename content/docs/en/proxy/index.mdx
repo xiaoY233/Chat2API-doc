@@ -1,0 +1,139 @@
+---
+title: Proxy Overview
+description: Chat2API provides an OpenAI-compatible API proxy that allows you to use any OpenAI-compatible client with configured AI providers.
+---
+
+## Status Monitoring
+
+The proxy settings page displays real-time status at the top:
+
+| Status | Description |
+|--------|-------------|
+| Running | Proxy server is running |
+| Stopped | Proxy server is stopped |
+| Error | Proxy server encountered an error |
+
+### Status Information
+
+- **Port**: Current listening port
+- **Uptime**: Server running duration
+- **Requests**: Total requests processed
+- **Success Rate**: Request success rate
+
+### Quick Actions
+
+- **Start Proxy**: Start the proxy server
+- **Stop Proxy**: Stop the proxy server
+- **Restart Proxy**: Restart the proxy server
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v1/chat/completions` | POST | Chat completion (streaming supported) |
+| `/v1/completions` | POST | Text completion |
+| `/v1/models` | GET | List available models |
+| `/v1/models/:model` | GET | Get model details |
+| `/health` | GET | Health check |
+| `/stats` | GET | Usage statistics |
+
+## Basic Usage
+
+### Using curl
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "Hello!"}
+    ]
+  }'
+```
+
+### Using OpenAI SDK (Python)
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="your-api-key",
+    base_url="http://localhost:8080/v1"
+)
+
+response = client.chat.completions.create(
+    model="DeepSeek-V3.2",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+```
+
+### Using OpenAI SDK (JavaScript)
+
+```typescript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: 'your-api-key',
+  baseURL: 'http://localhost:8080/v1',
+});
+
+const response = await client.chat.completions.create({
+  model: 'DeepSeek-V3.2',
+  messages: [{ role: 'user', content: 'Hello!' }],
+});
+```
+
+## Streaming Response
+
+Set `stream: true` to enable streaming:
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_KEY" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [{"role": "user", "content": "Hello!"}],
+    "stream": true
+  }'
+```
+
+## Response Format
+
+### Non-streaming
+
+```json
+{
+  "id": "chatcmpl-xxx",
+  "object": "chat.completion",
+  "created": 1234567890,
+  "model": "DeepSeek-V3.2",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Hello! How can I help you today?"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 20,
+    "total_tokens": 30
+  }
+}
+```
+
+### Streaming
+
+```
+data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk","created":1234567890,"model":"DeepSeek-V3.2","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk","created":1234567890,"model":"DeepSeek-V3.2","choices":[{"index":0,"delta":{"content":"Hello"},"finish_reason":null}]}
+
+data: [DONE]
+```

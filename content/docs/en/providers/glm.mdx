@@ -1,0 +1,103 @@
+---
+title: GLM (Zhipu Qingyan)
+description: GLM (Zhipu Qingyan) is an AI assistant by Zhipu AI, supporting GLM-5 flagship model and deep thinking capabilities.
+---
+
+## Supported Models
+
+| Model | Description |
+|-------|-------------|
+| GLM-5 | Latest GLM flagship model |
+
+## Features
+
+- GLM-5 flagship model
+- Deep thinking mode
+- Web search
+- Streaming/non-streaming output
+- Multi-turn conversation support
+- Tool calling support
+
+## Authentication
+
+GLM supports **OAuth Login** and **Refresh Token** authentication methods.
+
+### Method 1: OAuth Login (Recommended)
+
+<Steps>
+  <Step title="Add Provider">
+    In Chat2API, click **Add Provider** and select GLM.
+  </Step>
+  
+  <Step title="Select Authentication Method">
+    Choose **OAuth Login** method.
+  </Step>
+  
+  <Step title="Browser Login">
+    Click **Start Login**, the system will automatically open the browser and redirect to the Zhipu Qingyan login page.
+  </Step>
+  
+  <Step title="Complete Login">
+    After completing login in the browser, return to Chat2API, the system will automatically obtain authentication information.
+  </Step>
+</Steps>
+
+### Method 2: Manual Token
+
+<Steps>
+  <Step title="Visit Zhipu Qingyan">
+    Go to [Zhipu Qingyan](https://chatglm.cn/) and log in to your account.
+  </Step>
+  
+  <Step title="Open Developer Tools">
+    Start any conversation, then press `F12` to open Developer Tools.
+  </Step>
+  
+  <Step title="Navigate to Application">
+    In Developer Tools, go to **Application** tab.
+  </Step>
+  
+  <Step title="Find Cookies">
+    Expand **Cookies** in the left sidebar and select `https://chatglm.cn`.
+  </Step>
+  
+  <Step title="Copy Token">
+    Find the cookie named `chatglm_refresh_token` and copy its value.
+  </Step>
+</Steps>
+
+<Callout type="info">
+  The token is stored in Cookies, not Local Storage.
+</Callout>
+
+## Adding to Chat2API
+
+1. Navigate to **Providers** > **Add Provider**
+2. Select **GLM** from the list
+3. Paste your `chatglm_refresh_token` value
+4. Click **Validate** to verify
+5. Save the provider
+
+## API Usage
+
+### Model Names
+
+```json
+{
+  "model": "GLM-5",
+  "messages": [...]
+}
+```
+
+### Model Mapping Recommendations
+
+| Model Name | Actual Model | Description |
+|------------|--------------|-------------|
+| `GLM-5-Think` | GLM-5 | Deep thinking model |
+| `GLM-5-Search` | GLM-5 | Web search model |
+| `GLM-5-Think-Search` | GLM-5 | Deep thinking + Web search |
+
+## Official Resources
+
+- [Zhipu Qingyan](https://chatglm.cn/)
+- [Zhipu AI Open Platform](https://open.bigmodel.cn/)

@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "---[BookOpen]介绍---",
+    "index",
+    "installation",
+    "quick-start",
+    "---[Layers]基础---",
+    "providers",
+    "proxy",
+    "api-keys",
+    "---[Settings2]高级设置---",
+    "models",
+    "tool-calling",
+    "session-management",
+    "web-search-thinking",
+    "---[CircleEllipsis]其他---",
+    "settings",
+    "logs",
+    "faq"
+  ]
+}

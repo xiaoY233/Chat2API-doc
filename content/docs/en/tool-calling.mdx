@@ -1,0 +1,255 @@
+---
+title: Tool Calling
+description: Enable function calling for models that don't natively support it. Configure injection modes, client detection, and prompt variants.
+icon: Wrench
+---
+
+import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
+
+## Overview
+
+Chat2API provides function calling emulation for models that don't natively support tool calling. This allows you to use OpenAI-compatible tool calling format with any provider.
+
+## How It Works
+
+The system works through:
+
+1. **Prompt Injection**: Converts OpenAI-format `tools` definitions into system prompts
+2. **Protocol Parsing**: Intercepts protocol text in streaming responses
+3. **Format Conversion**: Transforms protocol output to OpenAI tool call format
+
+## Supported Models
+
+### Models with Emulation
+
+All non-native models support function calling emulation:
+
+| Provider | Models |
+|----------|--------|
+| DeepSeek | DeepSeek-V3.2, DeepSeek-Search, DeepSeek-R1, DeepSeek-R1-Search |
+| GLM | GLM-5 |
+| Kimi | Kimi-K2.5 |
+| MiniMax | MiniMax-M2.5 |
+| Qwen | Qwen3.5-Plus, Qwen3-Max, Qwen3-Flash, Qwen3-Coder |
+| Qwen AI | Qwen3.5-Plus, Qwen3.5-397B, Qwen3-VL-Plus |
+| Z.ai | GLM-5, GLM-4.7, GLM-4.6V, GLM-4.6 |
+
+### Models with Native Support
+
+These models use native function calling:
+
+- GPT-4, GPT-4-turbo, GPT-4o, GPT-4o-mini, GPT-3.5-turbo
+- Claude-3, Claude-3.5, Claude-sonnet, Claude-opus, Claude-haiku
+- Gemini-1.5, Gemini-2.0
+
+## Injection Modes
+
+Configure injection mode in **Advanced Settings** → **Tool Calling**:
+
+| Mode | Description |
+|------|-------------|
+| `auto` | Auto-detect client type, skip injection for known clients |
+| `smart` | Only inject when request appears complex |
+| `always` | Always inject tool definitions |
+| `never` | Disable injection, use when client already injects |
+
+### Smart Mode Triggers
+
+Smart mode injects prompts when:
+
+- Message length exceeds threshold (default 50 characters)
+- Contains trigger keywords: `search`, `find`, `get`, `call`, `use`, `tool`, `query`, `fetch`, `read`, `write`, `list`, `delete`, `update`, `create`
+- Contains question marks (`?` or `？`)
+- Contains code blocks (``` or `code`)
+- Matches action patterns: `help me ...`, `can you ...`, `please ...`, `i need to ...`, `i want to ...`
+
+### Recommended Modes
+
+| Scenario | Recommended Mode |
+|----------|------------------|
+| General use | `auto` - Detect client and skip if already injected |
+| Save tokens | `smart` - Maintain functionality while reducing token usage |
+| Consistent behavior | `always` - Ensure tool definitions are always present |
+| Client self-injection | `never` - Disable server-side injection |
+
+## Client Detection
+
+The system can detect known AI clients and skip injection:
+
+| Client | Type |
+|--------|------|
+| Cline | VS Code AI assistant |
+| Kilocode | AI code editor |
+| Roo-Code | VS Code extension |
+| VSCode Copilot | GitHub Copilot |
+| Cherry Studio | Desktop AI client |
+| Anthropic | Claude API |
+| OpenAI | GPT API |
+
+Configure in **Advanced Settings** → **Tool Calling** → **Client Detection**.
+
+## Protocol Formats
+
+The system supports multiple protocol formats:
+
+### Bracket Format (Primary)
+
+```
+[function_calls]
+[call:function_name]{"arg": "value"}[/call]
+[/function_calls]
+```
+
+### XML Format
+
+```xml
+<tool_use>
+  <name>function_name</name>
+  <arguments>{"arg": "value"}</arguments>
+</tool_use>
+```
+
+### Anthropic Format
+
+```xml
+<antml:function_calls>
+  <antml:invoke name="function_name">
+    <antml:parameters>{"arg": "value"}</antml:parameters>
+  </antml:invoke>
+</antml:function_calls>
+```
+
+## Prompt Variants
+
+Different models may use optimized prompt templates:
+
+| Variant | Models | Description |
+|---------|--------|-------------|
+| `default` | All | Universal template |
+| `qwen` | qwen, tongyi, dashscope | Optimized for Qwen |
+| `deepseek` | deepseek | Optimized for DeepSeek |
+| `glm` | glm, chatglm | Optimized for GLM |
+
+## Usage Example
+
+### Request
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "What is the weather in Beijing?"}
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get current weather for a location",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "City name"
+              }
+            },
+            "required": ["location"]
+          }
+        }
+      }
+    ]
+  }'
+```
+
+### Response
+
+```json
+{
+  "choices": [{
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [{
+        "id": "call_abc123",
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "arguments": "{\"location\": \"Beijing\"}"
+        }
+      }]
+    }
+  }]
+}
+```
+
+## Configuration
+
+Configure in **Advanced Settings** → **Tool Calling**:
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| Injection Mode | Tool definition injection strategy | `smart` |
+| Smart Threshold | Message length threshold for smart mode | 50 |
+| Client Detection | Enable client type detection | Enabled |
+| Prompt Variant | Prompt template variant | `default` |
+
+## Best Practices
+
+| Practice | Description |
+|----------|-------------|
+| Clear Descriptions | Provide clear function and parameter descriptions to help model understand tool usage |
+| Required Parameters | Clearly mark required parameters to avoid model missing key information |
+| Simple Schema | Keep parameter schemas simple, complex schemas may cause parsing errors |
+| Tool Names | Tool names are case-sensitive, use exact names when calling |
+| JSON Format | Arguments must be compact single-line JSON, no formatting spaces |
+
+## Troubleshooting
+
+<Accordions type="single">
+
+<Accordion title="No Tool Call Generated" value="no-tool-call">
+**Possible Causes and Solutions**:
+
+| Cause | Solution |
+|-------|----------|
+| Injection mode is `never` | Change to `auto` or `smart` |
+| Client detection skipped injection | Disable client detection or use `always` mode |
+| Invalid tool definition | Verify tool definition is valid JSON Schema |
+| Model doesn't support | Check if model supports the complexity of tools |
+</Accordion>
+
+<Accordion title="Incorrect Parameters" value="wrong-params">
+**Solutions**:
+
+| Method | Description |
+|--------|-------------|
+| Simplify Schema | Reduce nesting levels, use basic types |
+| Add Descriptions | Add more descriptive explanations for parameters |
+| Check JSON | Ensure JSON is compact (no formatting) |
+</Accordion>
+
+<Accordion title="Protocol Text in Response" value="protocol-text">
+**Possible Causes and Solutions**:
+
+| Cause | Solution |
+|-------|----------|
+| Streaming parsing failed | Check logs for parsing errors |
+| Prompt variant mismatch | Try different prompt variants |
+| Model output format abnormal | Check if model responds to prompts correctly |
+</Accordion>
+
+<Accordion title="Client Already Injected Prompts" value="client-injected">
+**Solutions**:
+
+| Method | Description |
+|--------|-------------|
+| Use `auto` mode | Auto-detect and skip clients that already injected |
+| Use `never` mode | Completely disable server-side injection |
+| Disable client detection | Force server-side injection (may duplicate) |
+</Accordion>
+
+</Accordions>

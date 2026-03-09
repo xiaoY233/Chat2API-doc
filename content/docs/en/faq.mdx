@@ -1,0 +1,243 @@
+---
+title: FAQ
+description: Frequently asked questions and solutions for common issues. Find answers about installation, proxy, authentication, performance, and more.
+icon: CircleQuestionMark
+---
+
+import { Accordions, Accordion } from 'fumadocs-ui/components/accordion';
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Important Notices
+
+<Callout type="warn">
+  This project is for learning and communication purposes only. Please do not abuse or create a large number of accounts. We recommend supporting official services and purchasing legitimate API packages for a more stable service experience.
+</Callout>
+
+<Callout type="info">
+  Chat2API is implemented based on Web API and has certain instability and functional limitations. The experience may not be good in high-frequency usage scenarios like programming IDEs, and there is a risk of account bans. It is recommended for lightweight conversation scenarios.
+</Callout>
+
+## Installation
+
+<Accordions type="single">
+
+<Accordion title="macOS: App is damaged and can't be opened" value="macos">
+When trying to open Chat2API on macOS, you see an error message saying the app is damaged.
+
+**Solution**:
+```bash
+sudo xattr -rd com.apple.quarantine "/Applications/Chat2API.app"
+```
+
+This removes the quarantine attribute that macOS applies to apps downloaded outside the App Store.
+</Accordion>
+
+<Accordion title="Windows: SmartScreen Warning" value="windows">
+Windows shows "Windows protected your PC" when running the installer.
+
+**Solution**:
+1. Click "More info"
+2. Click "Run anyway"
+
+This happens because the app is not code-signed. The app is safe to run.
+</Accordion>
+
+<Accordion title="Linux: AppImage Won't Run" value="linux">
+Double-clicking the AppImage doesn't launch the app.
+
+**Solution**:
+```bash
+chmod +x Chat2API-x.x.x-x64.AppImage
+./Chat2API-x.x.x-x64.AppImage
+```
+
+Make sure the file has execute permissions.
+</Accordion>
+
+</Accordions>
+
+## Proxy Issues
+
+<Accordions type="single">
+
+<Accordion title="Port Already in Use" value="port">
+"Port 8080 is already in use" error when starting proxy.
+
+**Solution**:
+1. Find what's using the port:
+   ```bash
+   # macOS/Linux
+   lsof -i :8080
+   
+   # Windows
+   netstat -ano | findstr :8080
+   ```
+2. Either stop the conflicting service or change the proxy port in settings.
+</Accordion>
+
+<Accordion title="Connection Refused" value="connection">
+API requests fail with "Connection refused".
+
+**Solution**:
+1. Verify the proxy is running (check status indicator)
+2. Check the correct port is being used
+3. Ensure firewall allows connections to the port
+</Accordion>
+
+<Accordion title="CORS Errors" value="cors">
+Browser requests fail with CORS errors.
+
+**Solution**:
+1. Go to **Proxy Settings** > **Basic Config**
+2. Enable CORS
+3. Add your origin to the allowed origins list
+</Accordion>
+
+</Accordions>
+
+## Authentication Issues
+
+<Accordions type="single">
+
+<Accordion title="Token Invalid" value="token-invalid">
+Provider shows "Token invalid" error.
+
+**Solution**:
+1. Re-login to the provider's website
+2. Get a fresh token from browser storage
+3. Update the token in Chat2API
+</Accordion>
+
+<Accordion title="Token Expired" value="token-expired">
+Authentication works initially but fails later.
+
+**Solution**:
+- Different providers have different token lifetimes
+- Some tokens expire after hours, others after days
+- Re-login and get a new token when this happens
+</Accordion>
+
+<Accordion title="OAuth Login Failed" value="oauth">
+OAuth login process doesn't complete.
+
+**Solution**:
+1. Make sure pop-ups are allowed in your browser
+2. Clear browser cookies for the provider
+3. Try the manual token input method instead
+</Accordion>
+
+</Accordions>
+
+## Performance Issues
+
+<Accordions type="single">
+
+<Accordion title="Slow Responses" value="slow">
+API responses are slow.
+
+**Solution**:
+1. Check your network connection
+2. Try a different provider
+3. Check if the provider is experiencing issues
+4. Reduce request complexity (shorter prompts)
+</Accordion>
+
+<Accordion title="Rate Limiting" value="rate-limit">
+Getting rate limited by providers.
+
+**Solution**:
+1. Add multiple accounts for the provider
+2. Use the Round Robin load balancing strategy
+3. Set appropriate daily limits per account
+4. Reduce request frequency
+</Accordion>
+
+</Accordions>
+
+## Data Issues
+
+<Accordions type="single">
+
+<Accordion title="Lost Configuration" value="config-lost">
+Settings or providers disappeared.
+
+**Solution**:
+1. Check if data exists in `~/.chat2api/`
+2. Import from a backup if available
+3. Reconfigure providers
+</Accordion>
+
+<Accordion title="Export/Import Not Working" value="export">
+Export or import fails.
+
+**Solution**:
+1. Ensure you have write permissions to the export location
+2. Verify the import file is valid JSON
+3. Check the file isn't corrupted
+</Accordion>
+
+</Accordions>
+
+## Updates
+
+<Accordions type="single">
+
+<Accordion title="How to Update" value="update">
+**Method 1: Auto Update**
+1. Go to **About** page
+2. Click **Check for Updates**
+3. Download and install
+
+**Method 2: Manual Update**
+1. Download the latest version from GitHub Releases
+2. Install over the existing installation
+3. Your data will be preserved
+</Accordion>
+
+<Accordion title="Update Failed" value="update-failed">
+Update installation fails.
+
+**Solution**:
+1. Download the latest version manually
+2. Uninstall the old version
+3. Install the new version
+4. Your data in `~/.chat2api/` will be preserved
+</Accordion>
+
+</Accordions>
+
+## General Questions
+
+<Accordions type="single">
+
+<Accordion title="Is Chat2API Free?" value="free">
+Yes, Chat2API is free and open-source under the GNU GPL v3.0 license.
+</Accordion>
+
+<Accordion title="Is My Data Safe?" value="security">
+- All credentials are encrypted with AES-256
+- Data is stored locally on your device
+- No data is sent to external servers (except AI provider APIs)
+</Accordion>
+
+<Accordion title="Can I Use Multiple Accounts?" value="multi-account">
+Yes! You can add multiple accounts per provider and use load balancing to distribute requests.
+</Accordion>
+
+<Accordion title="Which Providers Are Supported?" value="providers">
+| Provider | Region |
+|----------|--------|
+| DeepSeek | Global |
+| GLM | China |
+| Kimi | Global |
+| MiniMax | China |
+| Qwen | China |
+| Qwen AI | Global |
+| Z.ai | Global |
+</Accordion>
+
+<Accordion title="How Do I Report Bugs?" value="bug">
+Report issues on [GitHub Issues](https://github.com/xiaoY233/Chat2API/issues).
+</Accordion>
+
+</Accordions>

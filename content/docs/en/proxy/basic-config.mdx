@@ -1,0 +1,65 @@
+---
+title: Basic Configuration
+description: Configure basic Chat2API proxy server settings including port, bind address, and CORS.
+---
+
+## Port Configuration
+
+The proxy server listens for incoming API requests on the specified port.
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Port | 8080 | Proxy server port number |
+
+<Callout type="warning">
+  Ports below 1024 require admin/root privileges.
+</Callout>
+
+### Changing Port
+
+1. Navigate to **Proxy Settings** > **Basic Configuration**
+2. Enter new port number (1-65535)
+3. Click **Save Configuration**
+4. Restart the proxy server
+
+## Bind Address
+
+Configure which network interface the proxy binds to.
+
+| Address | Description |
+|---------|-------------|
+| `127.0.0.1` | Accept local connections only (default) |
+| `0.0.0.0` | Accept connections on all interfaces |
+| Specific IP | Bind to specific network interface |
+
+<Callout type="info">
+  Use `127.0.0.1` for local access only, or `0.0.0.0` to allow network access.
+</Callout>
+
+## CORS Settings
+
+Cross-Origin Resource Sharing (CORS) allows web applications to send requests to the proxy.
+
+### Enable CORS
+
+1. Toggle **Enable CORS** option
+2. Configure allowed origins
+
+### CORS Origins
+
+| Value | Description |
+|-------|-------------|
+| `*` | Allow all origins |
+| `http://localhost:3000` | Allow specific origin |
+| Multiple | Comma-separated list |
+
+## Configuration File
+
+Settings are stored in `~/.chat2api/config.json`:
+
+```json
+{
+  "proxyPort": 8080,
+  "proxyHost": "127.0.0.1"
+}
+```

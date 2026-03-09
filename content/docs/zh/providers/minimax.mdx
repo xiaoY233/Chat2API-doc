@@ -1,0 +1,127 @@
+---
+title: MiniMax
+description: MiniMax（海螺 AI）是 MiniMax 公司推出的 AI 助手，支持深度思考和联网搜索功能。
+---
+
+## 支持的模型
+
+| 模型 | 描述 |
+|------|------|
+| MiniMax-M2.5 | 最新 MiniMax M2.5 模型 |
+
+## 功能特性
+
+- 深度思考模式
+- 联网搜索
+- 流式/非流式输出
+- 多轮对话支持
+- 工具调用支持
+
+## 认证方式
+
+MiniMax 支持 **OAuth 登录认证** 和 **JWT Token 认证** 两种方式。
+
+### 方式一：OAuth 登录认证（推荐）
+
+<Steps>
+  <Step title="添加供应商">
+    在 Chat2API 中点击**添加供应商**，选择 MiniMax。
+  </Step>
+  
+  <Step title="选择认证方式">
+    选择 **OAuth 登录** 方式。
+  </Step>
+  
+  <Step title="浏览器登录">
+    点击**开始登录**，系统会自动打开浏览器跳转到 MiniMax 登录页面。
+  </Step>
+  
+  <Step title="完成登录">
+    在浏览器中完成登录后，返回 Chat2API，系统会自动获取认证信息。
+  </Step>
+</Steps>
+
+### 方式二：JWT Token 认证
+
+<Steps>
+  <Step title="访问 MiniMax Agent">
+    前往 [MiniMax Agent](https://agent.minimaxi.com/) 并登录。
+  </Step>
+  
+  <Step title="打开开发者工具">
+    按 `F12` 打开开发者工具。
+  </Step>
+  
+  <Step title="导航到 Application">
+    转到 **Application** > **Local Storage**。
+  </Step>
+  
+  <Step title="获取 Token">
+    找到 `_token` 并复制其值（JWT 格式，以 `eyJ` 开头）。
+  </Step>
+  
+  <Step title="获取 Real User ID">
+    在同一 Local Storage 中，找到 `user_detail_agent`，打开并复制 `realUserID` 值。
+  </Step>
+</Steps>
+
+<Callout type="warning">
+  MiniMax 需要 `_token` 和 `realUserID` 两者进行认证，请分别在对应输入框中输入。
+</Callout>
+
+## 添加到 Chat2API
+
+1. 导航到 **供应商** > **添加供应商**
+2. 从列表中选择 **MiniMax**
+3. 输入您的 JWT Token（`_token` 值）
+4. 输入您的 Real User ID
+5. 点击 **验证** 确认
+6. 保存供应商
+
+## API 使用
+
+### 模型名称
+
+```json
+{
+  "model": "MiniMax-M2.5",
+  "messages": [...]
+}
+```
+
+### 模型映射推荐
+
+| 模型名称 | 实际模型 | 描述 |
+|----------|----------|------|
+| `MiniMax-M2.5-Think` | MiniMax-M2.5 | 深度思考模型 |
+| `MiniMax-M2.5-Search` | MiniMax-M2.5 | 联网搜索模型 |
+| `MiniMax-M2.5-Think-Search` | MiniMax-M2.5 | 深度思考 + 联网搜索 |
+
+## 使用限制
+
+- 每天赠送 200 积分免费使用
+- 注意对话次数限制，积分用尽后无法继续对话
+
+<Callout type="warning">
+  MiniMax 的对话实现方式与其他供应商不同，采用轮询机制获取响应，因此响应速度可能较慢，且可能出现对话失败的情况。如遇问题，请稍后重试或更换其他供应商。
+</Callout>
+
+## 故障排除
+
+### 401 认证失败
+
+新注册账户可能无法使用标准 JWT 认证。解决方案：
+1. 同时获取 `_token` 和 `realUserID`
+2. 在 Chat2API 中分别输入到对应字段
+
+### Token 过期
+
+MiniMax Token 可能会过期。如果出现认证错误：
+1. 重新登录 MiniMax Agent 网站
+2. 获取新的 `_token` 和 `realUserID`
+3. 在 Chat2API 中更新
+
+## 官方资源
+
+- [MiniMax Agent](https://agent.minimaxi.com/)
+- [MiniMax 开放平台](https://www.minimaxi.com/platform)

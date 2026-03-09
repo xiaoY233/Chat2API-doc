@@ -1,0 +1,108 @@
+---
+title: Quick Start
+description: Get started with Chat2API in minutes - add your first provider and make an API call
+icon: Rocket
+---
+
+## Step 1: Launch the App
+
+After installation, launch Chat2API. You'll see the main dashboard.
+
+## Step 2: Add a Provider
+
+1. Navigate to **Providers** from the sidebar
+2. Click **Add Provider** button
+3. Select a built-in provider (e.g., DeepSeek)
+4. Enter your authentication credentials
+
+### Getting Your Token
+
+<Callout type="info">
+  Each provider requires different authentication. See the [Providers](/docs/basics/providers) section for detailed instructions on obtaining tokens for each service.
+</Callout>
+
+For example, to get a DeepSeek token:
+
+1. Visit [DeepSeek Chat](https://chat.deepseek.com/)
+2. Start any conversation
+3. Press `F12` to open Developer Tools
+4. Go to **Application** > **Local Storage**
+5. Find `userToken` and copy its value
+
+## Step 3: Configure Proxy
+
+1. Navigate to **Proxy Settings** from the sidebar
+2. Set the port (default: 8080)
+3. Choose a load balancing strategy:
+   - **Round Robin**: Distributes requests evenly across accounts
+   - **Fill First**: Uses one account until limit is reached
+   - **Failover**: Automatically switches on failure
+4. Click **Start Proxy**
+
+## Step 4: Test the API
+
+### Using curl
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "Hello, who are you?"}
+    ],
+    "stream": false
+  }'
+```
+
+### Using Python (OpenAI SDK)
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="your-api-key",
+    base_url="http://localhost:8080/v1"
+)
+
+response = client.chat.completions.create(
+    model="DeepSeek-V3.2",
+    messages=[
+        {"role": "user", "content": "Hello, who are you?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+### Using JavaScript/TypeScript
+
+```typescript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: 'your-api-key',
+  baseURL: 'http://localhost:8080/v1',
+});
+
+const response = await client.chat.completions.create({
+  model: 'DeepSeek-V3.2',
+  messages: [{ role: 'user', content: 'Hello, who are you?' }],
+});
+
+console.log(response.choices[0].message.content);
+```
+
+## Step 5: Manage API Keys (Optional)
+
+For security, you can enable API Key authentication:
+
+1. Go to **API Keys** page
+2. Click **New API Key**
+3. Enter a name and description
+4. Copy the generated key
+
+<Callout type="info">
+  Keep your API Key secure. You can always view created keys in the API Keys page.
+</Callout>

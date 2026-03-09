@@ -1,0 +1,37 @@
+---
+title: Advanced Configuration
+description: Configure advanced proxy settings including request timeout and retry count.
+---
+
+## Request Configuration
+
+### Timeout
+
+Maximum time to wait for provider response.
+
+| Setting | Default | Range |
+|---------|---------|-------|
+| Request Timeout | 60s | 1-300s |
+
+<Callout type="info">
+  Longer timeouts are suitable for complex queries but increase wait time.
+</Callout>
+
+### Retry Count
+
+Number of automatic retries on failure.
+
+| Setting | Default | Range |
+|---------|---------|-------|
+| Retry Count | 3 | 0-10 |
+
+## Configuration File
+
+Settings are stored in `~/.chat2api/config.json`:
+
+```json
+{
+  "requestTimeout": 60000,
+  "retryCount": 3
+}
+```

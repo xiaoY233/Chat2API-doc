@@ -1,0 +1,170 @@
+---
+title: 联网思考
+description: 通过请求参数或 HTTP 头启用联网搜索、深度思考和深度研究等特殊功能。
+icon: Sparkles
+---
+
+## 概述
+
+Chat2API 支持增强 AI 能力的特殊功能。这些功能可以通过请求参数或 HTTP 头启用。
+
+## 可用功能
+
+| 功能 | 参数 | Header | 描述 |
+|------|------|--------|------|
+| 联网搜索 | `web_search` | `X-Web-Search` | 启用互联网搜索能力 |
+| 深度思考 | `reasoning_effort` | `X-Reasoning-Effort` | 启用扩展推理模式 |
+| 深度研究 | `deep_research` | `X-Deep-Research` | 启用全面研究模式 |
+
+## 联网搜索
+
+启用 AI 搜索互联网获取最新信息。
+
+### 支持的供应商
+
+| 供应商 | 支持 | 说明 |
+|--------|------|------|
+| DeepSeek | ✅ | 完全支持 |
+| GLM | ✅ | 完全支持 |
+| Kimi | ✅ | 完全支持 |
+| Qwen | ✅ | 完全支持 |
+
+## 深度思考
+
+启用扩展推理以解决复杂问题。模型会思考更长时间并提供更详细的分析。
+
+### 思考级别
+
+| 级别 | 描述 |
+|------|------|
+| `low` | 快速思考，响应更快 |
+| `medium` | 平衡思考深度和速度 |
+| `high` | 深度思考，全面分析 |
+
+### 支持的供应商
+
+| 供应商 | 支持 | 说明 |
+|--------|------|------|
+| DeepSeek | ✅ | 完全支持，输出推理过程 |
+| GLM | ✅ | 完全支持 |
+| Qwen | ✅ | 完全支持，思考模式 |
+| Qwen AI | ✅ | 完全支持，输出推理过程 |
+
+## 深度研究
+
+启用全面研究模式进行深入分析和信息收集。
+
+### 支持的供应商
+
+| 供应商 | 支持 | 说明 |
+|--------|------|------|
+| GLM | ✅ | 完全支持 |
+
+## 客户端配置
+
+### Cline
+
+在 VS Code 的 Cline 插件中配置：
+
+1. 打开 Cline 设置
+2. 设置 API Base URL 为 `http://localhost:8080/v1`
+3. 填写 API Key
+4. 在设置模型时，Custom Headers 中添加：
+
+| 参数名 | 类型 | 值 |
+|--------|------|------|
+| `web_search` | boolean | `true` |
+| `reasoningEffort` | string | `low` / `medium` / `high` |
+
+### Roo Code / Kilo
+
+在 VS Code 的 Roo Code 或 Kilo 插件中配置：
+
+1. 打开设置
+2. 设置 Base URL 为 `http://localhost:8080/v1`
+3. 填写 API Key
+4. 在设置模型时，Custom Headers 中添加：
+
+| 参数名 | 类型 | 值 |
+|--------|------|------|
+| `web_search` | boolean | `true` |
+
+5. 启用推理工作量，设置模型推理强度
+
+### Cherry Studio
+
+在 Cherry Studio 中配置：
+
+1. 打开助理设置
+2. 在自定义参数中添加：
+
+| 参数名 | 类型 | 值 |
+|--------|------|------|
+| `web_search` | boolean | `true` |
+| `reasoningEffort` | string | `low` / `medium` / `high` |
+
+## API 调用示例
+
+### 启用联网搜索
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "今天最新的 AI 新闻有哪些？"}
+    ],
+    "web_search": true
+  }'
+```
+
+### 启用深度思考
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "请逐步解决这个复杂的数学问题..."}
+    ],
+    "reasoning_effort": "high"
+  }'
+```
+
+### 组合功能
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -H "X-Web-Search: true" \
+  -H "X-Reasoning-Effort: high" \
+  -d '{
+    "model": "DeepSeek-V3.2",
+    "messages": [
+      {"role": "user", "content": "研究并分析当前量子计算的发展状况..."}
+    ]
+  }'
+```
+
+## 注意事项
+
+<Callout type="warn">
+  功能可用性取决于供应商支持、模型支持和账户状态。使用前请确认供应商是否支持该功能。
+</Callout>
+
+<Callout type="info">
+  深度思考和研究模式会增加响应时间，建议按需使用。组合多个功能会进一步增加延迟。
+</Callout>
+
+## 常见问题
+
+| 问题 | 解决方案 |
+|------|----------|
+| 功能不工作 | 验证供应商支持该功能，检查参数/Header 格式 |
+| 响应时间增加 | 深度思考和研究模式需要更长时间，可使用较低的思考级别 |
+| 结果不符合预期 | 功能可能改变模型行为，建议先用简单查询测试 |

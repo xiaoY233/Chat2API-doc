@@ -1,0 +1,103 @@
+---
+title: Z.ai
+description: Z.ai is a free AI chatbot powered by GLM models.
+---
+
+## Supported Models
+
+| Model | Description |
+|-------|-------------|
+| GLM-5 | Latest GLM-5 model |
+| GLM-4.7 | GLM-4.7 model |
+| GLM-4.6V | Vision model |
+| GLM-4.6 | Standard model |
+
+## Features
+
+- Free to use
+- Deep thinking mode
+- Web search
+- Streaming/non-streaming output
+- Multi-turn conversation support
+- Tool calling support
+
+## Authentication
+
+Z.ai supports **OAuth Login** and **JWT Token** authentication methods.
+
+### Method 1: OAuth Login (Recommended)
+
+<Steps>
+  <Step title="Add Provider">
+    In Chat2API, click **Add Provider** and select Z.ai.
+  </Step>
+  
+  <Step title="Select Authentication Method">
+    Choose **OAuth Login** method.
+  </Step>
+  
+  <Step title="Browser Login">
+    Click **Start Login**, the system will automatically open the browser and redirect to the Z.ai login page.
+  </Step>
+  
+  <Step title="Complete Login">
+    After completing login in the browser, return to Chat2API, the system will automatically obtain authentication information.
+  </Step>
+</Steps>
+
+### Method 2: JWT Token Authentication
+
+<Steps>
+  <Step title="Visit Z.ai">
+    Go to [Z.ai](https://chat.z.ai/) and log in.
+  </Step>
+  
+  <Step title="Open Developer Tools">
+    Press `F12` to open Developer Tools.
+  </Step>
+  
+  <Step title="Find Token">
+    Check one of the following locations:
+    - **Cookies**: Look for `token` cookie
+    - **Local Storage**: Look for `token` key
+  </Step>
+  
+  <Step title="Copy Token">
+    Copy the JWT token value (starts with `eyJ`).
+  </Step>
+</Steps>
+
+<Callout type="info">
+  Token can be found in either Cookies or Local Storage.
+</Callout>
+
+## Adding to Chat2API
+
+1. Navigate to **Providers** > **Add Provider**
+2. Select **Z.ai** from the list
+3. Paste your JWT Token
+4. Click **Validate** to confirm
+5. Save the provider
+
+## API Usage
+
+### Model Names
+
+```json
+{
+  "model": "GLM-5",
+  "messages": [...]
+}
+```
+
+### Model Mapping Recommendations
+
+| Model Name | Actual Model | Description |
+|------------|--------------|-------------|
+| `GLM-5-Think` | GLM-5 | Deep thinking model |
+| `GLM-5-Search` | GLM-5 | Web search model |
+| `GLM-5-Think-Search` | GLM-5 | Deep thinking + Web search |
+
+## Official Resources
+
+- [Z.ai](https://chat.z.ai/)

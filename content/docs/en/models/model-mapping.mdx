@@ -1,0 +1,142 @@
+---
+title: Model Mapping
+description: Model mapping allows you to map request model names to actual models used by providers, supporting OpenAI compatibility, model aliases, and provider preferences.
+---
+
+## Overview
+
+Model mapping allows you to:
+- Use OpenAI model names with different providers
+- Create model aliases for easier invocation
+- Route specific models to preferred providers or accounts
+
+## Adding a Mapping
+
+1. Navigate to **Model Management** > **Model Mapping**
+2. Click **Add Mapping**
+3. Configure the mapping rule
+4. Save changes
+
+## Mapping Configuration
+
+### Basic Mapping
+
+| Field | Description |
+|-------|-------------|
+| Request Model | Model name in the API request |
+| Actual Model | Model name sent to the provider |
+| Preferred Provider | (Optional) Specific provider to use |
+| Preferred Account | (Optional) Specific account to use |
+
+### Example
+
+Map `gpt-4` to `DeepSeek-V3.2`:
+
+| Request Model | Actual Model | Provider |
+|---------------|--------------|----------|
+| `gpt-4` | `DeepSeek-V3.2` | DeepSeek |
+
+```bash
+# Request with gpt-4
+curl http://localhost:8080/v1/chat/completions \
+  -d '{"model": "gpt-4", "messages": [...]}'
+
+# Actually uses DeepSeek-V3.2 on DeepSeek
+```
+
+## Wildcard Mapping
+
+Use `*` as a wildcard to match multiple models.
+
+### Examples
+
+| Pattern | Matches |
+|---------|---------|
+| `gpt-*` | gpt-4, gpt-3.5-turbo, gpt-4o |
+| `gpt-4*` | gpt-4, gpt-4o, gpt-4-turbo |
+| `*-turbo` | gpt-3.5-turbo, gpt-4-turbo |
+
+<Callout type="info">
+  Wildcard mappings are evaluated in order. More specific patterns should come first.
+</Callout>
+
+## Priority Rules
+
+When multiple mappings could match:
+
+1. Exact match takes priority over wildcards
+2. Earlier rules take priority over later ones
+3. Provider-specific rules take priority over global rules
+
+### Example Priority
+
+| Order | Request Model | Actual Model | Priority |
+|-------|---------------|--------------|----------|
+| 1 | `gpt-4` | `DeepSeek-V3.2` | High (exact) |
+| 2 | `gpt-*` | `GLM-5` | Low (wildcard) |
+
+## Provider Preference
+
+Route specific models to preferred providers:
+
+| Request Model | Actual Model | Provider |
+|---------------|--------------|----------|
+| `gpt-4` | `DeepSeek-V3.2` | DeepSeek |
+| `gpt-4` | `GLM-5` | GLM |
+
+<Callout type="info">
+  If the preferred provider is unavailable, the system will try other providers.
+</Callout>
+
+## Account Preference
+
+Route to specific accounts within a provider:
+
+| Request Model | Actual Model | Provider | Account |
+|---------------|--------------|----------|---------|
+| `gpt-4-premium` | `DeepSeek-V3.2` | DeepSeek | Premium Account |
+
+## Use Cases
+
+### OpenAI Compatibility
+
+Map OpenAI model names to use with other providers:
+
+| Request | Actual |
+|---------|--------|
+| `gpt-4` | `DeepSeek-V3.2` |
+| `gpt-3.5-turbo` | `GLM-5` |
+| `gpt-4-vision` | `Qwen3-VL-235B-A22B` |
+
+### Model Aliases
+
+Create aliases for easier reference:
+
+| Request | Actual |
+|---------|--------|
+| `fast` | `DeepSeek-V3.2` |
+| `smart` | `Kimi-K2.5` |
+| `code` | `Qwen3-Coder` |
+
+### Testing
+
+Route test requests to specific accounts:
+
+| Request | Actual | Account |
+|---------|--------|---------|
+| `test-model` | `DeepSeek-V3.2` | Test Account |
+
+## Managing Mappings
+
+### Edit Mapping
+
+1. Find the mapping in the list
+2. Click **Edit**
+3. Modify the settings
+4. Save changes
+
+### Delete Mapping
+
+1. Find the mapping in the list
+2. Click **Delete**
+3. Confirm deletion
