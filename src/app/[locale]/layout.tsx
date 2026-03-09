@@ -20,9 +20,10 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const typedLocale = locale as Locale;
   setRequestLocale(locale);
   const messages = await getMessages();
 
@@ -32,7 +33,7 @@ export default async function Layout({
         <NextIntlClientProvider messages={messages}>
           <RootProvider>
             <ColorThemeProvider>
-              <I18nProviderWrapper locale={locale}>
+              <I18nProviderWrapper locale={typedLocale}>
                 {children}
               </I18nProviderWrapper>
             </ColorThemeProvider>

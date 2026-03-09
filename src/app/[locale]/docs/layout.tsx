@@ -11,17 +11,18 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const pageTree = source.getPageTree(locale);
+  const typedLocale = locale as Locale;
+  const pageTree = source.getPageTree(typedLocale);
   
   return (
-    <I18nProviderWrapper locale={locale}>
+    <I18nProviderWrapper locale={typedLocale}>
       <ColorThemeProvider>
         <DocsLayout
           tree={pageTree}
-          {...baseOptions(locale)}
+          {...baseOptions(typedLocale)}
           links={[
             {
               type: 'icon',

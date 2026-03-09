@@ -14,14 +14,6 @@ const config = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/docs/:path*.mdx',
-        destination: '/llms.mdx/docs/:path*',
-      },
-    ];
-  },
 };
 
 export default withMDX(withNextIntl(config));

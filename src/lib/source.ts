@@ -4,6 +4,7 @@ import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
 import { locales } from './i18n';
 
 export const source = loader({
+  baseUrl: '/docs',
   source: docs.toFumadocsSource(),
   i18n: {
     languages: [...locales],
@@ -11,12 +12,6 @@ export const source = loader({
     parser: 'dir',
   },
   plugins: [lucideIconsPlugin()],
-  url(slugs, locale) {
-    if (locale) {
-      return '/' + [locale, 'docs', ...slugs].join('/');
-    }
-    return '/' + ['docs', ...slugs].join('/');
-  },
 });
 
 export function getPageImage(page: InferPageType<typeof source>) {

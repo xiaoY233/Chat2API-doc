@@ -13,21 +13,22 @@ import { locales } from '@/lib/i18n';
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug?: string[]; locale: Locale }>;
+  params: Promise<{ slug?: string[]; locale: string }>;
 }) {
   const { slug, locale } = await params;
-  const page = source.getPage(slug ?? [], locale);
+  const page = source.getPage(slug ?? [], locale as Locale);
 
   if (!page) {
     notFound();
   }
 
-  const { body: MDX, toc } = await page.data.load();
+  const MDX = (page.data as any).body;
+  const toc = (page.data as any).toc;
 
   return (
     <DocsPage
       toc={toc}
-      full={page.data.full}
+      full={(page.data as any).full}
       tableOfContent={{ style: 'clerk' }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
